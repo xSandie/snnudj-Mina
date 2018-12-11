@@ -1,0 +1,130 @@
+.container {
+    margin-top: 122rpx;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    color: #999ba1;
+    background: white;
+    box-shadow: 0rpx 6rpx 10rpx #eef1fd;
+    z-index: 10;
+    position: fixed;
+    top: 0;
+}
+
+.nav-item {
+    width: 375rpx;
+    height: 90rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 30rpx;
+    font-weight: bold;
+}
+
+.nav-item.active {
+    color: rgb(211, 55, 64);
+}
+
+.main-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 48rpx;
+    border-radius: 10rpx;
+    border: 2rpx solid rgb(211, 55, 64);
+    width: 120rpx;
+    height: 184rpx;
+}
+
+.col-in-card {
+    margin-left: 20rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 192rpx;
+}
+
+.col-in-card-2 {
+    margin-left: 20rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 140rpx;
+}
+
+.qiandao {
+    margin-left: 4rpx;
+}
+
+.pub-person-sum {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.admin-tag {
+    text-align: center;
+    color: white;
+    width: 84rpx;
+    display: flex;
+    justify-content: center;
+    border-radius: 6rpx;
+    border-bottom-left-radius: 0;
+    padding: 0 6rpx;
+    margin-left: 8rpx;
+}
+
+.tag-area {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+}
+
+.blue-tag {
+    color: rgb(10, 136, 218);
+    padding: 0 6rpx;
+    background: rgb(232, 244, 255);
+    border-radius: 6rpx;
+}
+
+.green-tag {
+    margin-left: 8rpx;
+    padding: 0 6rpx;
+    color: rgb(11, 188, 7);
+    background: rgb(230, 255, 230);
+    border-radius: 6rpx;
+}
+
+.fake-btn {
+    font-weight: bold;
+    border: 2rpx solid rgb(211, 55, 64);
+    padding: 0 26rpx;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    height: 52rpx;
+    border-radius: 26rpx;
+    position: absolute;
+    bottom: 24rpx;
+    right: 24rpx;
+}
+
+.main-area-2 {
+    height: 140rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 48rpx;
+    border-radius: 10rpx;
+    border: 2rpx solid rgb(211, 55, 64);
+    width: 120rpx;
+}

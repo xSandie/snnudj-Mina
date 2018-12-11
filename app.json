@@ -1,18 +1,35 @@
 {
-  "pages": [
-    "pages/index/index",
-    "pages/signOnAct/signOnAct",
-    "pages/pubSignOn/pubSignOn",
-    "pages/suggestion/suggestion",
-    "pages/myCenter/myCenter",
-    "pages/signOnProcess/signOnProcess",
-    "pages/signIn/signIn",
-    "pages/auth/auth"
-  ],
-  "window": {
-    "backgro": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle": "black"
-  }
+    "pages": [
+        "pages/home/home",
+        "pages/signOnAct/signOnAct",
+        "pages/pubSignOn/pubSignOn",
+        "pages/suggestion/suggestion",
+        "pages/myCenter/myCenter",
+        "pages/signOnProcess/signOnProcess",
+        "pages/signIn/signIn",
+        "pages/auth/auth"
+    ],
+    "window": {
+        "backgro": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "陕师大外院党建",
+        "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+        "selectedColor": "#d13742",
+        "list": [{
+                "pagePath": "pages/home/home",
+                "text": "签到活动"
+            },
+            {
+                "pagePath": "pages/suggestion/suggestion",
+                "text": "党建建议"
+            },
+            {
+                "pagePath": "pages/myCenter/myCenter",
+                "text": "个人中心"
+            }
+
+        ]
+    }
 }
