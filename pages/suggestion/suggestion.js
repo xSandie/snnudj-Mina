@@ -6,21 +6,23 @@ Page({
      * 页面的初始数据
      */
     data: {
-        admin: true,
+        admin: false,
         suggestions: [{
             sugId: 1,
             sugTitle: '这里是建议的标题',
             sugContent: '这里是建议的内容哈哈哈哈哈哈哈哈哈哈哈啊狂顶喀什酱豆腐卡卡的付款撒卡岛附近卡喀什地方就卡扩大撒赖激发开始夫卡是肌肤的卡健康ask大家发快递放假',
-            reply: '这是回复待收到回复骄傲是打开房间啊看撒娇的发四点九分爱上绝地反击啊的骄傲首府喀山吉萨大反击撒地方骄傲是的风景发货v啊上半场遵从经典赛弗内安的肌肤阿道夫呢与他'
+            reply: ['回复人名字', '这是回复待收到回复骄傲是打开房间啊看撒娇的发四点九分爱上绝地反击啊的骄傲首府喀山吉萨大反击撒地方骄傲是的风景发货v啊上半场遵从经典赛弗内安的肌肤阿道夫呢与他'],
         }, {
             sugId: 2,
             sugTitle: '这里是建议的标题',
             sugContent: '这里是建议的内容哈哈哈哈哈哈哈哈哈哈哈啊狂顶喀什酱豆腐卡卡的付款撒卡岛附近卡喀什地方就卡扩大撒赖激发开始夫卡是肌肤的卡健康ask大家发快递放假',
-            reply: '这是回复待收到回复骄傲是打开房间啊看撒娇的发四点九分爱上绝地反击啊的骄傲首府喀山吉萨大反击撒地方骄傲是的风景发货v啊上半场遵从经典赛弗内安的肌肤阿道夫呢与他'
+            reply: ['回复人名字', '这是回复待收到回复骄傲是打开房间啊看撒娇的发四点九分爱上绝地反击啊的骄傲首府喀山吉萨大反击撒地方骄傲是的风景发货v啊上半场遵从经典赛弗内安的肌肤阿道夫呢与他'],
+            select: false
         }, {
             sugId: 3,
             sugTitle: '这里是建议的标题',
-            sugContent: '这里是建议的内容哈哈哈哈哈哈哈哈哈哈哈啊狂顶喀什酱豆腐卡卡的付款撒卡岛附近卡喀什地方就卡扩大撒赖激发开始夫卡是肌肤的卡健康ask大家发快递放假'
+            sugContent: '这里是建议的内容哈哈哈哈哈哈哈哈哈哈哈啊狂顶喀什酱豆腐卡卡的付款撒卡岛附近卡喀什地方就卡扩大撒赖激发开始夫卡是肌肤的卡健康ask大家发快递放假',
+            select: false
         }],
         ignoreSug: [{
             sugId: 4,
@@ -30,28 +32,25 @@ Page({
             sugId: 5,
             sugTitle: '这里是建议的标题',
             sugContent: '这里是建议的内容哈哈哈哈哈哈哈哈哈哈哈啊狂顶喀什酱豆腐卡卡的付款撒卡岛附近卡喀什地方就卡扩大撒赖激发开始夫卡是肌肤的卡健康ask大家发快递放假',
-            reply: '这是回复待收到回复骄傲是打开房间啊看撒娇的发四点九分爱上绝地反击啊的骄傲首府喀山吉萨大反击撒地方骄傲是的风景发货v啊上半场遵从经典赛弗内安的肌肤阿道夫呢与他'
         }, {
             sugId: 6,
             sugTitle: '这里是建议的标题',
-            sugContent: '这里是建议的内容哈哈哈哈哈哈哈哈哈哈哈啊狂顶喀什酱豆腐卡卡的付款撒卡岛附近卡喀什地方就卡扩大撒赖激发开始夫卡是肌肤的卡健康ask大家发快递放假',
-            reply: '这是回复待收到回复骄傲是打开房间啊看撒娇的发四点九分爱上绝地反击啊的骄傲首府喀山吉萨大反击撒地方骄傲是的风景发货v啊上半场遵从经典赛弗内安的肌肤阿道夫呢与他'
+            sugContent: '这里是建议的内容哈哈哈哈哈哈哈哈哈哈哈啊狂顶喀什酱豆腐卡卡的付款撒卡岛附近卡喀什地方就卡扩大撒赖激发开始夫卡是肌肤的卡健康ask大家发快递放假'
         }],
         statusBarHeight: 0,
         navbar: ['回复中', '已忽略'],
         currentTab: 0,
         nextPage: 1, //下一页，用于分页
-        contentHeight: 0
+        contentHeight: 0,
+        replySuggestionId: null, //回复的建议id
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        this.setData({
-            statusBarHeight: app.globalData.statusBarHeight,
-            contentHeight: app.globalData.screenHeight - 230 - 330
-        })
+
+
 
     },
 
@@ -66,7 +65,18 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-
+        var that = this
+        if (!this.data.admin) {
+            this.setData({
+                statusBarHeight: app.globalData.statusBarHeight,
+                contentHeight: app.globalData.screenHeight - 254 - 330
+            })
+        } else {
+            this.setData({
+                statusBarHeight: app.globalData.statusBarHeight,
+                contentHeight: app.globalData.screenHeight - 254 - 256
+            })
+        }
     },
 
     /**
@@ -109,5 +119,34 @@ Page({
             currentTab: e.currentTarget.dataset.idx,
             nextPage: 1
         })
+    },
+    reply: function(e) {
+        var that = this
+        if (!this.data.admin) {
+            return
+        } //不是管理员，直接返回
+        // console.log(e)
+        var tempSug = new Array()
+        var selectId = e.currentTarget.dataset.id
+        var tempSuggestions = this.data.suggestions
+        for (var index in tempSuggestions) {
+            if (tempSuggestions[index].sugId == selectId) {
+                if (tempSuggestions[index].reply) {
+                    tempSug.push(tempSuggestions[index])
+                    continue
+                }
+                tempSuggestions[index].select = true
+                this.setData({
+                    replySuggestionId: tempSuggestions[index].sugId
+                })
+            } else {
+                tempSuggestions[index].select = false
+            }
+            tempSug.push(tempSuggestions[index])
+        }
+        this.setData({
+                suggestions: tempSug
+            })
+            // console.log(this.data.suggestions)
     }
 })
