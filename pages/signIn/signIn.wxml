@@ -1,2 +1,31 @@
-<!--pages/signIn/signIn.wxml-->
-<text>pages/signIn/signIn.wxml</text>
+<view class='container'>
+    <view class='white_card'>
+        <view>
+            <image src="../../images/signLogo.png" mode='widthFix' style='width:280rpx;margin:60rpx 0;' />
+        </view>
+        <view style='margin-bottom:20rpx'>
+            <text selectable  class='my_bold my_red small_font'>签到发起人·{{pubuserPhone}}</text>
+        </view>
+        <view style='margin-bottom:30rpx' >
+            <text class='my_bold my_black large_font'>{{pubuserName}}</text>
+        </view>
+        <view style='margin-bottom:20rpx' class='title-area'>
+            <view class='line'>
+            </view>
+            <text  class='my_bold my_red small_font'>截止时间</text>
+            <view class='line'>
+            </view>
+        </view>
+        <view style='margin-bottom:30rpx'>
+            <text  class='my_bold my_black large_font'>{{endTime}}</text>
+        </view>
+        <view class='numb-area'>
+            <text class='my_red my_bold large_font'>{{signInNum}}人已签到</text>
+        </view>
+        <view style='margin-bottom:36rpx;'>
+            <text class='my_red my_bold large_font'>您好，{{myUsername}}！</text>
+        </view>
+        <button bindtap="signIn" class='main_btn sign-btn' hover-class="redbtn_hover">点击签到</button>
+    </view>
+        <button bindtap="navHome" hover-class="defaultTap" class='nav-btn'>返回主页</button>
+</view>

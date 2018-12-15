@@ -68,3 +68,69 @@ page {
 .card_hover {
     background: rgb(246, 246, 250);
 }
+
+.redbtn_hover {
+    background: linear-gradient(rgb(244, 11, 49), rgb(253, 96, 126));
+}
+
+.opt_card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12rpx;
+    padding: 24rpx;
+}
+
+.title_bar {
+    background: white;
+    height: 140rpx;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    font-size: 36rpx;
+    width: 100%;
+    align-items: center;
+}
+
+.main_btn {
+    width: 460rpx;
+    background: linear-gradient(90deg, rgb(244, 11, 49), rgb(253, 96, 126));
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 32rpx;
+    box-shadow: 0rpx 6rpx 16rpx rgba(230, 47, 59, 0.54);
+}
+
+.hollow_btn {
+    width: 200rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 32rpx;
+    color: rgb(244, 11, 49);
+    border: 2rpx solid rgb(244, 11, 49);
+}
+
+.redbtn_hover {
+    background: linear-gradient(-90deg, rgb(244, 11, 49), rgb(224, 20, 65));
+    box-shadow: none;
+}
+
+button::after {
+    border: none;
+}
+
+input {
+    outline: none;
+    border: none;
+    list-style: none;
+}

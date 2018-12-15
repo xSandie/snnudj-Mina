@@ -1,1 +1,97 @@
-/* pages/suggestion/suggestion.wxss */
+.form-area {
+    width: 750rpx;
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0;
+    background: white;
+    padding: 24rpx;
+    border-top: 2rpx solid rgb(211, 55, 64);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+input {
+    width: 100%;
+    font-size: 30rpx;
+}
+
+.btn-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 60rpx;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.hollow_btn {
+    font-size: 30rpx;
+    height: 100%;
+    border-radius: 30rpx;
+    width: 30%;
+}
+
+.main_btn {
+    font-size: 30rpx;
+    height: 100%;
+    border-radius: 30rpx;
+}
+
+.title-area {
+    box-sizing: border-box;
+    padding: 0 12rpx;
+    width: 702rpx;
+    height: 40rpx;
+    background: #f5f8fd;
+    border-radius: 10rpx;
+    margin-bottom: 24rpx;
+}
+
+.content-area {
+    box-sizing: border-box;
+    padding: 0 12rpx;
+    width: 702rpx;
+    height: 120rpx;
+    background: #f5f8fd;
+    border-radius: 10rpx;
+    margin-bottom: 24rpx;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    color: #999ba1;
+    background: white;
+    box-shadow: 0rpx 6rpx 10rpx #eef1fd;
+    z-index: 10;
+    position: fixed;
+    top: 140rpx;
+}
+
+.nav-item {
+    width: 375rpx;
+    height: 90rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 30rpx;
+    font-weight: bold;
+}
+
+.nav-item.active {
+    color: rgb(211, 55, 64);
+}
+
+scroll-view {
+    position: relative;
+    top: 230rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10rpx 40rpx;
+}

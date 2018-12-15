@@ -1,2 +1,50 @@
-<!--pages/signOnProcess/signOnProcess.wxml-->
-<text>pages/signOnProcess/signOnProcess.wxml</text>
+<view style='width:100%;box-sizing:border-box;'>
+    <image mode='aspectFill' class='bg-img' src="../../images/bgImg.png"></image>
+    <view class='bg-card opt_card'>
+        <view wx:if="{{processing}}" class='small-title my_bold my_red'>
+            <text>自动结束时间</text>
+        </view>
+        <view wx:else class='small-title my_bold my_red'>
+            <text>结束时间</text>
+        </view>
+        <view class='end-time my_black my_bold'>
+            <text>{{endTime}}</text>
+        </view>
+    </view>
+</view>
+<view class='container' style='z-index:10;box-shadow:0rpx -6rpx 16rpx rgba(109, 109, 160, 0.05);'>
+    <view class='user-info'>
+        <open-data class='profImg' type="userAvatarUrl"></open-data>
+        <view class='text_area'>
+            <text class='mid_font my_black my_bold'>{{username}}·{{userPhone}}</text>
+            <text class='mid_font my_grey'>创建时间：{{createTime}}</text>
+        </view>
+    </view>
+    <view class='mid-title mid_font my_black my_bold'>
+        <text>已签到</text>
+        <text>{{haveSignIn}}/{{needSignIn}}人</text>
+    </view>
+    <view class='black-line'>
+    </view>
+    <view class='sign-total' wx:for="{{signInPeople}}">
+        <view class='sign-people'>
+            <view class='my_bold'>
+            {{item.username}} · <text style='display:inline;font-weight:normal;' class='my_grey'>{{item.userPhone}}</text>
+            </view>
+            <text class='my_bold'>{{item.signInTime}}</text>
+        </view>
+        <view class='grey-line'>
+        </view>
+    </view>
+</view>
+<view class='btn-area'>
+    <view bindtap="getQRCode" class='hollow_btn fin-btn' >
+        <text>二维码</text>
+    </view>
+    <view wx:if="{{!signInEnd}}" bindtap="finSignIn" class='main_btn fin-btn' hover-class='redbtn_hover'>
+        <text>结束签到</text>
+    </view>  
+    <view wx:else bindtap="tempOpenSignIn" class='main_btn fin-btn' hover-class='redbtn_hover'>
+        <text>临时开启</text>
+    </view>      
+</view>

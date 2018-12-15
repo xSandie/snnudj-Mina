@@ -1,1 +1,63 @@
-/* pages/signIn/signIn.wxss */
+.white_card {
+    border: 2rpx solid rgb(211, 55, 64);
+    position: relative;
+    top: 100rpx;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 30rpx;
+    box-shadow: 0rpx 6rpx 16rpx rgba(230, 47, 59, 0.54);
+    margin-bottom: 36rpx;
+}
+
+.title-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.line {
+    width: 48rpx;
+    height: 4rpx;
+    border-radius: 2rpx;
+    margin: 0 10rpx;
+    background: rgb(211, 55, 64);
+}
+
+.numb-area {
+    display: flex;
+    margin-bottom: 30rpx;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10rpx;
+    border: 2rpx solid rgb(211, 55, 64);
+    background: #f5f8fd;
+    text-align: center;
+    padding: 16rpx 26rpx;
+}
+
+.sign-btn {
+    color: white;
+    font-size: 50rpx;
+    font-weight: bold;
+    height: 110rpx;
+    border-radius: 55rpx;
+    width: 560rpx;
+    margin-bottom: 36rpx;
+}
+
+.nav-btn {
+    color: rgb(211, 55, 64);
+    font-size: 50rpx;
+    font-weight: bold;
+    height: 110rpx;
+    border-radius: 55rpx;
+    width: 560rpx;
+    position: relative;
+    top: 100rpx;
+    border: 2rpx solid rgb(211, 55, 64);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}

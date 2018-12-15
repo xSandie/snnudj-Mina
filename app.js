@@ -2,12 +2,13 @@
 App({
     onLaunch: function() {
         // 登录
-      wx.showLoading({
-        title: '加载中',
-        mask:true
-      })
+        var that = this
+        wx.showLoading({
+            title: '加载中',
+            mask: true
+        })
         wx.login({
-          
+
                 success: res => {
                     // 发送 res.code 到后台换取 openId, sessionKey, unionId
                     wx.hideLoading()
@@ -33,8 +34,23 @@ App({
                 }
             }
         })
+        wx.getSystemInfo({
+            success: res => {
+                console.log(res)
+                    //导航高度
+                that.globalData.statusBarHeight = res.statusBarHeight;
+                var rpxPX = 750 / res.screenWidth
+                that.globalData.screenHeight = res.windowHeight * rpxPX
+                console.log(that.globalData.screenHeight)
+            },
+            fail(err) {
+                console.log(err);
+            }
+        })
     },
     globalData: {
-        userInfo: null
+        statusBarHeight: 0,
+        userInfo: null,
+        screenHeight: 0
     }
 })

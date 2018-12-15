@@ -1,2 +1,42 @@
-<!--pages/auth/auth.wxml-->
-<text>pages/auth/auth.wxml</text>
+<view class='container'>
+    <view wx:if="{{canChange}}" class='white_card'>
+        <view class='card-title my_bold'>
+            <text>修改账户信息</text>
+        </view>
+        <form bindsubmit="userinfoChange">
+            <view class='my_bold input-area'>
+                <text>手机号：</text><input maxlength='11' type="number" placeholder="{{userPhone}}" name='userPhone' />
+            </view>
+            <view class='my_bold input-area'>
+                <text>姓名：</text><input type="text" placeholder="{{userName}}" name='userName' />
+            </view>
+            <view class='my_bold input-area'>
+                <text>密码：</text><input type="text" placeholder="********" password name='password' />
+            </view>
+            <view class='my_bold input-area'>
+                <text>确认密码：</text><input type="text" placeholder="********" password name='confirmPassword' />
+            </view>
+            <button form-type="submit" class='main_btn' hover-class="redbtn_hover">确认修改</button>
+        </form>
+    </view>
+    <view wx:else class='white_card'>
+        <view class='card-title my_bold'>
+            <text>注册</text>
+        </view>
+        <form bindsubmit="signUp">
+            <view class='my_bold input-area'>
+                <text>手机号：</text><input maxlength='11' type="number" placeholder="手机号将作为账号" name='userPhone' />
+            </view>
+            <view class='my_bold input-area'>
+                <text>姓名：</text><input type="text" placeholder="请输入真实姓名" name='userName' />
+            </view>
+            <view class='my_bold input-area'>
+                <text>密码：</text><input type="text" placeholder="********" password name='password' />
+            </view>
+            <view class='my_bold input-area'>
+                <text>确认密码：</text><input type="text" placeholder="********" password name='confirmPassword' />
+            </view>
+            <button form-type="submit" class='main_btn' hover-class="redbtn_hover">确认修改</button>
+        </form>
+    </view>
+</view>

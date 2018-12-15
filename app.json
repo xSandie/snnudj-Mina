@@ -1,21 +1,21 @@
 {
     "pages": [
-        "pages/home/home",
-        "pages/signOnAct/signOnAct",
-        "pages/pubSignOn/pubSignOn",
-        "pages/suggestion/suggestion",
-        "pages/myCenter/myCenter",
-        "pages/signOnProcess/signOnProcess",
-        "pages/signIn/signIn",
-        "pages/auth/auth"
+      "pages/suggestion/suggestion",
+      "pages/signIn/signIn",
+      "pages/home/home",
+      "pages/auth/auth",
+      "pages/myCenter/myCenter",
+      "pages/signOnProcess/signOnProcess",
+      "pages/pubSignOn/pubSignOn"        
     ],
     "window": {
-        "backgro": "light",
-        "navigationBarBackgroundColor": "#fff",
-        "navigationBarTitleText": "陕师大外院党建",
-        "navigationBarTextStyle": "black"
+        "navigationBarTextStyle": "dark",
+        "navigationBarBackgroundColor": "#ffffff",
+        "navigationStyle": "custom",
+        "backgroundColor": "#f5f8fd"
     },
     "tabBar": {
+        "color": "#999ba1",
         "selectedColor": "#d13742",
         "list": [{
                 "pagePath": "pages/home/home",

@@ -6,6 +6,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        statusBarHeight: 0,
         navbar: ['进行中', '已结束'],
         currentTab: 0,
         nextPage: 1, //下一页，用于分页
@@ -16,9 +17,26 @@ Page({
             'admin': true,
             'signInTotal': 90,
             'signInTime': '05-07 16:00',
-            'endTime': '11-29 21:00'
+            'endTime': '11-29 21:00',
+            'signInId': 123
+        }, {
+            'pubPhoneNum': 18349250473,
+            'pubName': '向书晗',
+            'signInNum': '',
+            'admin': true,
+            'signInTotal': 90,
+            'signInTime': '05-07 16:00',
+            'endTime': '11-29 21:00',
+            'signInId': 123
         }],
         pubAct: [{
+                'pubTime': '11-29 18:00',
+                'haveSignIn': 89,
+                'needSignIn': 90,
+                'urgent': true,
+                'endTime': '11-29 21:00',
+                'signInId': 123
+            }, {
                 'pubTime': '11-29 18:00',
                 'haveSignIn': 89,
                 'needSignIn': 90,
@@ -37,7 +55,9 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-
+        this.setData({
+            statusBarHeight: app.globalData.statusBarHeight
+        })
     },
 
     /**
@@ -79,7 +99,10 @@ Page({
      * 页面上拉触底事件的处理函数
      */
     onReachBottom: function() {
-
+        var that = this
+        this.setData({
+            nextPage: that.data.nextPage + 1
+        })
     },
 
     /**
@@ -97,7 +120,7 @@ Page({
     },
     fin_signIn: function(e) {
         var that = this
-        signInId = e.currentTarget.dataset.signInId
+        var signInId = e.currentTarget.dataset.signInId
         wx.showModal({
             title: '确认结束',
             content: '结束后，仍可在上方“已结束”选项栏中，临时开启10分钟',
@@ -109,5 +132,26 @@ Page({
                 }
             }
         })
+    },
+    toPub: function() {
+        wx.navigateTo({
+            url: '../pubSignOn/pubSignOn',
+        })
+    },
+    toDetail: function(e) {
+        var signInId = e.currentTarget.dataset.signInId
+        wx.navigateTo({
+            url: '../signIn/signIn?Id=' + signInId,
+        })
+    },
+    toPubDetail: function(e) {
+        var signInId = e.currentTarget.dataset.signInId
+        wx.navigateTo({
+            url: '../signOnProcess/signOnProcess?Id=' + signInId,
+        })
+    },
+    tempOpen: function(e) {
+        var signInId = e.currentTarget.dataset.signInId
+            //临时开启十分钟逻辑        
     }
 })

@@ -1,2 +1,38 @@
-<!--pages/suggestion/suggestion.wxml-->
-<text>pages/suggestion/suggestion.wxml</text>
+<view class='title_bar my_bold my_black mid_font'>
+    <text style='margin-top:{{statusBarHeight}}rpx;'>陕师大外院党建</text>
+</view>
+<view wx:if="{{admin}}" class="navbar">  
+  <view wx:for="{{navbar}}" data-idx="{{index}}" class="nav-item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap"><text>{{item}}</text></view>  
+</view>  
+<scroll-view style="height: {{contentHeight}}rpx;" hidden="{{currentTab!==0}}" class='container'>
+    <view wx:for="{{items}}">
+        
+    </view>
+</scroll-view>
+<scroll-view style="height: {{contentHeight}}rpx;" hidden="{{currentTab!==1}}" class='container'>
+
+</scroll-view>
+<!--非管理员看到的界面-->
+<scroll-view style="height: {{contentHeight}}rpx;" wx:if="{{!admin}}">
+    
+</scroll-view>
+<view wx:if="{{!admin}}" class='form-area'>
+    <form bindsubmit="formSubmit" bindreset="formReset">
+        <input class='my_red title-area' name="title" placeholder="输入标题" />
+        <input class='my_red content-area' name="content" placeholder="请填写建议内容" />
+        <view class='btn-area'>
+            <button class='main_btn submit-btn' hover-class='redbtn_hover' form-type="submit">发布建议</button>
+            <button class='hollow_btn reset-btn' form-type="reset">清空</button>
+        </view>
+    </form>
+</view>
+<view wx:else class='form-area'>
+    <form bindsubmit="formSubmit" bindreset="formReset">
+        <input class='my_red title-area' name="title" placeholder="输入标题" />
+        <input class='my_red content-area' name="content" placeholder="请填写建议内容" />
+        <view class='btn-area'>
+            <button class='main_btn submit-btn' hover-class='redbtn_hover' form-type="submit">发布回复</button>
+            <button class='hollow_btn reset-btn' form-type="reset">清空</button>
+        </view>
+    </form>
+</view>

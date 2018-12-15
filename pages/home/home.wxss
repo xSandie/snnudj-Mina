@@ -1,5 +1,5 @@
 .container {
-    margin-top: 122rpx;
+    margin-top: 240rpx;
 }
 
 .navbar {
@@ -10,7 +10,7 @@
     box-shadow: 0rpx 6rpx 10rpx #eef1fd;
     z-index: 10;
     position: fixed;
-    top: 0;
+    top: 140rpx;
 }
 
 .nav-item {
@@ -37,6 +37,19 @@
     font-size: 48rpx;
     border-radius: 10rpx;
     border: 2rpx solid rgb(211, 55, 64);
+    width: 120rpx;
+    height: 184rpx;
+}
+
+.main-area-1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 48rpx;
+    border-radius: 10rpx;
+    border: 2rpx solid #999ba1;
     width: 120rpx;
     height: 184rpx;
 }
@@ -79,6 +92,18 @@
     margin-left: 8rpx;
 }
 
+.admin-tag-1 {
+    text-align: center;
+    background: rgb(245, 245, 245);
+    width: 84rpx;
+    display: flex;
+    justify-content: center;
+    border-radius: 6rpx;
+    border-bottom-left-radius: 0;
+    padding: 0 6rpx;
+    margin-left: 8rpx;
+}
+
 .tag-area {
     display: flex;
     flex-direction: row;
@@ -100,9 +125,38 @@
     border-radius: 6rpx;
 }
 
+.grey-tag {
+    padding: 0 6rpx;
+    background: rgb(245, 245, 245);
+    border-radius: 6rpx;
+}
+
+.grey-tag-1 {
+    padding: 0 6rpx;
+    background: rgb(245, 245, 245);
+    border-radius: 6rpx;
+    margin-left: 6rpx;
+}
+
 .fake-btn {
     font-weight: bold;
     border: 2rpx solid rgb(211, 55, 64);
+    padding: 0 26rpx;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    height: 52rpx;
+    border-radius: 26rpx;
+    position: absolute;
+    bottom: 24rpx;
+    right: 24rpx;
+}
+
+.fake-btn-1 {
+    font-weight: bold;
+    border: 2rpx solid #999ba1;
     padding: 0 26rpx;
     box-sizing: border-box;
     display: flex;
@@ -127,4 +181,36 @@
     border-radius: 10rpx;
     border: 2rpx solid rgb(211, 55, 64);
     width: 120rpx;
+}
+
+.main-area-3 {
+    height: 140rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 48rpx;
+    border-radius: 10rpx;
+    border: 2rpx solid #999ba1;
+    width: 120rpx;
+}
+
+.floatBtn {
+    z-index: 20;
+    position: fixed;
+    bottom: 40rpx;
+    margin-right: auto;
+    margin-left: auto;
+    height: 80rpx;
+    border-radius: 40rpx;
+    color: white;
+    box-shadow: 0rpx 6rpx 10rpx rgba(211, 55, 64, 0.4);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 180rpx;
+    align-self: center;
 }
