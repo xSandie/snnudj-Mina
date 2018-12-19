@@ -1,5 +1,4 @@
 .form-area {
-    z-index: 99;
     width: 750rpx;
     box-sizing: border-box;
     position: fixed;
@@ -16,11 +15,20 @@ form {
 }
 
 textarea {
-    width: 100%;
+    width: 702rpx;
     font-size: 30rpx;
 }
 
+.textarea-con {
+    height: 120rpx;
+}
+
+.textarea-title {
+    height: 40rpx;
+}
+
 .btn-area {
+    margin-top: 24rpx;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -59,7 +67,6 @@ textarea {
     height: 120rpx;
     background: #f5f8fd;
     border-radius: 10rpx;
-    margin-bottom: 24rpx;
 }
 
 .navbar {

@@ -2,38 +2,6 @@
 App({
     onLaunch: function() {
         // 登录
-        var that = this
-        wx.showLoading({
-            title: '加载中',
-            mask: true
-        })
-        wx.login({
-
-                success: res => {
-                    // 发送 res.code 到后台换取 openId, sessionKey, unionId
-                    wx.hideLoading()
-                }
-            })
-            // 获取用户信息
-        wx.getSetting({
-            success: res => {
-                if (res.authSetting['scope.userInfo']) {
-                    // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-                    wx.getUserInfo({
-                        success: res => {
-                            // 可以将 res 发送给后台解码出 unionId
-                            this.globalData.userInfo = res.userInfo
-
-                            // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-                            // 所以此处加入 callback 以防止这种情况
-                            if (this.userInfoReadyCallback) {
-                                this.userInfoReadyCallback(res)
-                            }
-                        }
-                    })
-                }
-            }
-        })
         wx.getSystemInfo({
             success: res => {
                 console.log(res)
@@ -47,10 +15,84 @@ App({
                 console.log(err);
             }
         })
+
+    },
+    getUser: function() {
+        var that = this
+        return new Promise(function(resolve, reject) {
+            wx.showLoading({
+                title: '加载中',
+                mask: true
+            })
+            wx.login({
+                success: function(res) {
+                    if (res.code) {
+                        // console.log(res.code)
+                        //发起网络请求
+                        wx.request({
+                            url: '',
+                            data: {
+                                code: res.code
+                            },
+                            success: function(res) {
+                                //   console.log(res.data)//服务器解密后，客户端收到基本信息                      
+                                // console.log('code')
+                                // console.log(res)
+                                if (res.statusCode == 200) {
+                                    that.globalData.admin = res.data.admin,
+                                        that.globalData.userId = res.data.userId,
+                                        that.globalData.openId = res.data.openId,
+                                        that.globalData.username = res.data.username,
+                                        that.globalData.userPhone = res.data.userPhone,
+                                        that.globalData.date = res.data.date,
+                                        that.globalData.startDate = res.data.startDate,
+                                        that.globalData.endDate = res.data.endDate
+
+                                    wx.hideLoading()
+                                } else {
+                                    wx.hideLoading()
+                                    wx.showToast({
+                                        title: '网络不太畅通，请检查网络，再关闭微信重试',
+                                        icon: 'none',
+                                        duration: 10000,
+                                        mask: true,
+                                        success: function() {}
+                                    })
+                                }
+                                resolve(res);
+                            },
+                            fail: function() {
+                                wx.hideLoading()
+                                wx.showToast({
+                                    title: '网络不太畅通，请检查网络，再关闭微信重试',
+                                    icon: 'none',
+                                    duration: 10000,
+                                    mask: true,
+                                    success: function() {}
+                                })
+                                reject('error');
+                                //app.globalData.userInfo = "dfjkadhfkahfauhf"
+                            }
+                        })
+                    } else {
+                        reject('error');
+                        // console.log('登录失败！' + res.errMsg)
+                    }
+                }
+            })
+        })
     },
     globalData: {
         statusBarHeight: 0,
         userInfo: null,
-        screenHeight: 0
+        screenHeight: 0,
+        endDate: '',
+        startDate: '',
+        date: '',
+        userPhone: '',
+        username: '',
+        openId: '',
+        userId: '',
+        admin: false
     }
 })

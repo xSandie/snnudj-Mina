@@ -5,15 +5,14 @@ Page({
      * 页面的初始数据
      */
     data: {
-        username: '向书晗',
-        userPhone: 18349250473,
-        createTime: '11-29 19:00',
+        username: '向书晗', //签到发起时名字
+        userPhone: 18349250473, //签到发起时手机号
+        createTime: '11-29 19:00', //签到创建时间
         processing: true,
         endTime: '11-30 20:00', //结束时间，自动或者手动，会刷新
         haveSignIn: 88,
         needSignIn: 90,
         signInId: 0,
-        signInEnd: false,
         signInPeople: [{
                 username: '张筠瑶',
                 userPhone: 15529268167,
@@ -34,7 +33,8 @@ Page({
                 userPhone: 15529268167,
                 signInTime: '19:00'
             }
-        ]
+        ],
+        qrCode: '' //二维码地址
     },
 
     /**

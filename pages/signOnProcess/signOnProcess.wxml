@@ -41,7 +41,7 @@
     <view bindtap="getQRCode" class='hollow_btn fin-btn' >
         <text>二维码</text>
     </view>
-    <view wx:if="{{!signInEnd}}" bindtap="finSignIn" class='main_btn fin-btn' hover-class='redbtn_hover'>
+    <view wx:if="{{processing}}" bindtap="finSignIn" class='main_btn fin-btn' hover-class='redbtn_hover'>
         <text>结束签到</text>
     </view>  
     <view wx:else bindtap="tempOpenSignIn" class='main_btn fin-btn' hover-class='redbtn_hover'>

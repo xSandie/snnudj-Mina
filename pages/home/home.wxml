@@ -76,7 +76,7 @@
       <view class='my_black mid_font my_bold' style='margin:28rpx 0;'>
         <text>我创建的签到</text>
       </view>
-      <view class='white_card' bindtap="toPubDetail" style='margin-bottom:30rpx;' data-sign-in-id="{{item.signInId}}" hover-class='card_hover' wx:for="{{pubAct}}">
+      <view class='white_card' bindtap="toPubDetail" style='margin-bottom:30rpx;' data-sign-in-id="{{item.signInId}}" hover-class='card_hover' wx:for="{{finPubAct}}">
         <view catchtap='tempOpen' data-sign-in-id="{{item.signInId}}" class='main-area-3  my_grey my_bold' >
             <text>临时</text>
             <text style='margin-top:4rpx;'>开启</text>
@@ -100,7 +100,7 @@
       <view class='my_grey mid_font my_bold' style='margin:28rpx 0;'>
       <text>我参与的</text>
     </view>
-    <view class='white_card' bindtap="toDetail" style='margin-bottom:30rpx;' data-sign-in-id="{{item.signInId}}" hover-class='card_hover' wx:for="{{joinedAct}}">
+    <view class='white_card' bindtap="toDetail" style='margin-bottom:30rpx;' data-sign-in-id="{{item.signInId}}" hover-class='card_hover' wx:for="{{finJoinedAct}}">
         <view class='main-area-1 my_grey my_bold'>
             <text>签到</text>
             <text style='margin-top:4rpx;'>成功</text>

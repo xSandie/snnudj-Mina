@@ -24,7 +24,7 @@
         </view>
     </view>
 </scroll-view>
-<scroll-view wx:if="{{admin}}" scroll-y style="height: {{contentHeight}}rpx;" hidden="{{currentTab!==1}}" class='container'>
+<scroll-view wx:if="{{admin}}" scroll-y style="top:254rpx;height: {{contentHeight}}rpx;" hidden="{{currentTab!==1}}" class='container'>
 <view class='white_card' data-id="{{item.sugId}}" style="border:{{item.select?'2rpx solid rgb(211, 55, 64)':none}};margin-bottom:24rpx;" wx:for="{{ignoreSug}}">
         <view class='my_black mid_font title-text'>
             <text selectable>{{item.sugTitle}}</text>
@@ -46,8 +46,12 @@
     </view></scroll-view>
 <view wx:if="{{!admin}}" class='form-area'>
     <form bindsubmit="pubSuggest" bindreset="resetSuggest">
-        <textarea class='my_red title-area' name="title" placeholder="输入标题" />
-        <textarea class='my_red content-area' name="content" placeholder="请填写建议内容" />
+    <view class='title-area'>
+        <textarea class='my_red textarea-title' maxlength='20' name="title" placeholder="输入标题" />
+    </view>
+    <view class='content-area'>
+        <textarea class='my_red textarea-con' maxlength='150' name="content" placeholder="请填写建议内容" />
+    </view>
         <view class='btn-area'>
             <button class='main_btn submit-btn' hover-class='redbtn_hover' form-type="submit">发布建议</button>
             <button class='hollow_btn reset-btn' form-type="reset">清空</button>
@@ -58,7 +62,9 @@
 <!--管理员看到的回复-->
 <view wx:else class='form-area'>
     <form bindsubmit="pubReply" bindreset="resetReply">
-        <textarea  class='my_red content-area' name="content" placeholder="请填写回复内容" />
+        <view class='content-area'>
+            <textarea  class='my_red textarea-con' maxlength='150' name="content" placeholder="请填写回复内容" /> 
+        </view>
         <view class='btn-area'>
             <button class='main_btn submit-btn' hover-class='redbtn_hover' form-type="submit">发布回复</button>
             <button class='hollow_btn reset-btn' form-type="reset">清空</button>

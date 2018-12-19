@@ -7,7 +7,7 @@ Page({
     data: {
         userPhone: 18349250473,
         userName: '向书晗',
-        canChange: true
+        canChange: false //动态判断然后赋值
     },
 
     /**
@@ -28,7 +28,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-
+        //同步与全局的信息
     },
 
     /**

@@ -23,9 +23,10 @@
             <text class='my_red my_bold large_font'>{{signInNum}}人已签到</text>
         </view>
         <view style='margin-bottom:36rpx;'>
-            <text class='my_red my_bold large_font'>您好，{{myUsername}}！</text>
+            <text wx:if="{{canSignIn}}" class='my_red my_bold large_font'>您好，{{myUsername}}！</text>
+            <text wx:if="{{!canSignIn}}" class='my_red my_bold large_font'>您已签到！</text>
         </view>
-        <button bindtap="signIn" class='main_btn sign-btn' hover-class="redbtn_hover">点击签到</button>
+        <button wx:if="{{canSignIn}}" bindtap="signIn" class='main_btn sign-btn' hover-class="redbtn_hover">点击签到</button>
     </view>
         <button bindtap="navHome" hover-class="defaultTap" class='nav-btn'>返回主页</button>
 </view>

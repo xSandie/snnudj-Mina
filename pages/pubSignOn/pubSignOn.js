@@ -10,7 +10,9 @@ Page({
         startDate: '2018-12-30',
         endDate: '2019-2-27', //默认两个月
         time: '21:00',
-        createTime: '2018-11-30 19:00'
+        createTime: '2018-11-30 19:00',
+        CodeURl: '',
+        signInId: ''
     },
 
     /**
