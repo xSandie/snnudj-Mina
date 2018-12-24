@@ -4,7 +4,7 @@
 <view wx:if="{{admin}}" class="navbar">  
   <view wx:for="{{navbar}}" data-idx="{{index}}" class="nav-item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap"><text>{{item}}</text></view>  
 </view>  
-<scroll-view wx:if="{{admin}}" scroll-y style="top:254rpx;height: {{contentHeight}}rpx;" hidden="{{currentTab!==0}}" class='container'>
+<scroll-view wx:if="{{admin}}" bindscrolltolower="moreSuggestion" scroll-y style="top:254rpx;height: {{contentHeight}}rpx;" hidden="{{currentTab!==0}}" class='container'>
     <view class='white_card' data-id="{{item.sugId}}" style="border:{{item.select?'2rpx solid rgb(211, 55, 64)':none}};margin-bottom:24rpx;" bindtap="reply" wx:for="{{suggestions}}">
         <view class='my_black mid_font title-text'>
             <text selectable>{{item.sugTitle}}</text>
@@ -14,7 +14,7 @@
         </view>
         <view wx:if="{{!item.reply}}" class='card-btn-area'>
             <text class="my_red normal_font my_bold">回复</text>
-            <view>
+            <view catchtap="IgnoreSug" data-id="{{item.sugId}}">
                 <text class='my_grey normal_font'>忽略</text>
             </view>
         </view>
@@ -24,7 +24,7 @@
         </view>
     </view>
 </scroll-view>
-<scroll-view wx:if="{{admin}}" scroll-y style="top:254rpx;height: {{contentHeight}}rpx;" hidden="{{currentTab!==1}}" class='container'>
+<scroll-view wx:if="{{admin}}" bindscrolltolower="moreIgnore" scroll-y style="top:254rpx;height: {{contentHeight}}rpx;" hidden="{{currentTab!==1}}" class='container'>
 <view class='white_card' data-id="{{item.sugId}}" style="border:{{item.select?'2rpx solid rgb(211, 55, 64)':none}};margin-bottom:24rpx;" wx:for="{{ignoreSug}}">
         <view class='my_black mid_font title-text'>
             <text selectable>{{item.sugTitle}}</text>

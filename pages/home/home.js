@@ -1,5 +1,6 @@
 // pages/home/home.js
 const app = getApp()
+const urlModel = require('../../utils/urlSet.js')
 Page({
 
     /**
@@ -86,11 +87,15 @@ Page({
             statusBarHeight: app.globalData.statusBarHeight
         })
         app.getUser().then(function(res) {
+            wx.showLoading({
+                title: '加载列表中',
+                mask: true
+            })
             var send_data = {
                 'userId': app.globalData.userId,
             }
             wx.request({
-                url: '', //TODO:请求未完成签到url
+                url: urlModel.url.getOngoSignIn, //TODO:请求未完成签到url
                 method: 'GET',
                 data: send_data,
                 success: function(res) {
@@ -100,10 +105,30 @@ Page({
                             joinedAct: res.data.joinedAct,
                             pubAct: res.data.pubAct
                         })
+                        wx.hideLoading()
+                        wx.showToast({
+                            title: '加载成功',
+                            icon: 'success',
+                            duration: 2000
+                        })
+                    } else {
+                        wx.hideLoading()
+                        wx.showToast({
+                            title: '加载失败，请下拉重试',
+                            icon: 'none',
+                            duration: 2000
+                        })
                     }
 
                 },
-                fail: function() {},
+                fail: function() {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '加载失败，请下拉重试',
+                        icon: 'none',
+                        duration: 2000
+                    })
+                },
                 complete: function() {}
             })
 
@@ -143,20 +168,60 @@ Page({
      */
     onPullDownRefresh: function() {
         var that = this
+        wx.showLoading({
+            title: '刷新中',
+            mask: true
+        })
         this.setData({
             nextPage: 1
         })
         setTimeout(() => {}, 500)
         if (this.data.currentTab == 1) {
-            var send_data = {
+            //TODO:请求已完成刷新
+            wx.request({
+                url: urlModel.url.getFinSignIn,
+                method: 'GET',
+                data: {
                     'userId': app.globalData.userId,
-                    'nextPage': this.data.nextPage
+                    'nextPage': that.data.nextPage
+                },
+                success: function(res) {
+                    if (res.statusCode == 200) {
+                        that.setData({
+                            finJoinedAct: res.data.finJoinedAct,
+                            finPubAct: res.data.finPubAct
+                        })
+                        wx.hideLoading()
+                        wx.showToast({
+                            title: '刷新成功',
+                            icon: 'success',
+                            duration: 2000
+                        })
+                    } else {
+                        wx.hideLoading()
+                        wx.showToast({
+                            title: '刷新失败，请重试',
+                            icon: 'none',
+                            duration: 2000
+                        })
+                    }
+                },
+                fail: function() {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '刷新失败，请重试',
+                        icon: 'none',
+                        duration: 2000
+                    })
                 }
-                //TODO:请求已完成刷新
+            })
         } else {
             //TODO:未完成刷新
+            var send_data = {
+                'userId': app.globalData.userId
+            }
             wx.request({
-                url: '',
+                url: urlModel.url.getOngoSignIn,
                 method: 'GET',
                 data: send_data,
                 success: function(res) {
@@ -166,10 +231,32 @@ Page({
                             joinedAct: res.data.joinedAct,
                             pubAct: res.data.pubAct
                         })
+                        wx.hideLoading()
+                        wx.showToast({
+                            title: '刷新成功',
+                            icon: 'success',
+                            duration: 2000
+                        })
+                    } else {
+                        wx.hideLoading()
+                        wx.showToast({
+                            title: '刷新失败，请重试',
+                            icon: 'none',
+                            duration: 2000
+                        })
                     }
                 },
-                fail: function() {},
-                complete: function() {}
+                fail: function() {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '刷新失败，请重试',
+                        icon: 'none',
+                        duration: 2000
+                    })
+                },
+                complete: function() {
+
+                }
             })
         }
 
@@ -184,8 +271,53 @@ Page({
         this.setData({
             nextPage: that.data.nextPage + 1
         })
+        wx.showLoading({
+            title: '加载中',
+            mask: true
+        })
+        setTimeout(function() {
+
+        }, 500);
         if (this.data.currentTab == 1) {
             //TODO: 获取已完成下一页
+            wx.request({
+                url: urlModel.url.getFinSignIn,
+                method: 'GET',
+                data: {
+                    'userId': app.globalData.userId,
+                    'nextPage': that.data.nextPage
+                },
+                success: function(res) {
+                    if (res.statusCode == 200) {
+                        that.setData({
+                            finJoinedAct: that.data.finJoinedAct.concat(res.data.finJoinedAct),
+                            finPubAct: that.data.finPubAct.concat(res.data.finPubAct)
+                        })
+                        wx.hideLoading()
+                        wx.showToast({
+                            title: '加载成功',
+                            icon: 'success',
+                            duration: 2000
+                        })
+                    } else {
+                        wx.hideLoading()
+                        wx.showToast({
+                            title: '加载失败，请重试',
+                            icon: 'none',
+                            duration: 2000
+                        })
+                    }
+                },
+                fail: function() {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '加载失败，请重试',
+                        icon: 'none',
+                        duration: 2000
+                    })
+                }
+            })
+
         }
     },
 
@@ -209,12 +341,8 @@ Page({
                 title: '刷新中',
                 mask: true
             })
-            setTimeout(() => {}, 500)
-            wx.hideLoading()
-        } else {
-            //TODO:在未完成
             wx.request({
-                url: '', //填充请求订单
+                url: urlModel.url.getFinSignIn,
                 method: 'GET',
                 data: {
                     'userId': app.globalData.userId,
@@ -226,8 +354,26 @@ Page({
                             finJoinedAct: res.data.finJoinedAct,
                             finPubAct: res.data.finPubAct
                         })
-                    }
+                    } else {}
+                }
+            })
 
+            wx.hideLoading()
+        } else {
+            //TODO:在未完成
+            wx.request({
+                url: urlModel.url.getOngoSignIn, //填充请求订单
+                method: 'GET',
+                data: {
+                    'userId': app.globalData.userId
+                },
+                success: function(res) {
+                    if (res.statusCode == 200) {
+                        that.setData({
+                            joinedAct: res.data.joinedAct,
+                            pubAct: res.data.pubAct
+                        })
+                    }
                 },
                 fail: function() {},
                 complete: function() {}
@@ -246,18 +392,36 @@ Page({
                 if (res.confirm) {
                     //TODO:执行结束签到逻辑
                     wx.request({
-                        url: '', //填充请求订单
-                        method: 'GET',
+                        url: urlModel.url.endSignIn, //填充请求订单
+                        method: 'POST',
                         data: {
                             'userId': app.globalData.userId,
-                            'nextPage': that.data.nextPage
+                            'signInId': signInId
                         },
                         success: function(res) {
                             if (res.statusCode == 200) {
                                 //TODO:调用刷新
+                                wx.showToast({
+                                    title: '成功结束',
+                                    icon: 'success',
+                                    duration: 2000
+                                })
+                                that.onPullDownRefresh()
+                            } else {
+                                wx.showToast({
+                                    title: '失败，请重试',
+                                    icon: 'none',
+                                    duration: 2000
+                                })
                             }
                         },
-                        fail: function() {},
+                        fail: function() {
+                            wx.showToast({
+                                title: '失败，请重试',
+                                icon: 'none',
+                                duration: 2000
+                            })
+                        },
                         complete: function() {}
                     })
                 }
@@ -282,6 +446,7 @@ Page({
         })
     },
     tempOpen: function(e) {
+        var that = this
         var signInId = e.currentTarget.dataset.signInId
         wx.showModal({
             title: '注意',
@@ -291,6 +456,20 @@ Page({
             success: function(res) {
                 if (res.confirm) {
                     //TODO:临时开启十分钟逻辑，调用下拉刷新
+                    wx.request({
+                        url: urlModel.url.tempOpen,
+                        method: 'POST',
+                        data: {
+                            'userId': app.globalData.userId,
+                            'signInId': signInId
+                        },
+                        success: function(res) {
+                            if (res.statusCode == 200) {
+                                that.onPullDownRefresh()
+                            } else {}
+                        }
+                    })
+
                 }
             }
         })

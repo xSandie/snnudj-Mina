@@ -1,7 +1,9 @@
-//app.js
+const urlModel = require('utils/urlSet.js') //app.js
+
 App({
     onLaunch: function() {
-        // 登录
+        var that = this
+            // 登录
         wx.getSystemInfo({
             success: res => {
                 console.log(res)
@@ -30,7 +32,7 @@ App({
                         // console.log(res.code)
                         //发起网络请求
                         wx.request({
-                            url: '',
+                            url: urlModel.url.codeUrl,
                             data: {
                                 code: res.code
                             },
@@ -39,20 +41,29 @@ App({
                                 // console.log('code')
                                 // console.log(res)
                                 if (res.statusCode == 200) {
-                                    that.globalData.admin = res.data.admin,
-                                        that.globalData.userId = res.data.userId,
-                                        that.globalData.openId = res.data.openId,
-                                        that.globalData.username = res.data.username,
-                                        that.globalData.userPhone = res.data.userPhone,
-                                        that.globalData.date = res.data.date,
-                                        that.globalData.startDate = res.data.startDate,
-                                        that.globalData.endDate = res.data.endDate
+                                    console.log(res)
+                                    that.globalData.openId = res.data.openId
+                                    if (res.data.userPhone) {
+                                        that.globalData.admin = res.data.admin,
+                                            that.globalData.userId = res.data.userId,
+                                            that.globalData.username = res.data.username,
+                                            that.globalData.userPhone = res.data.userPhone,
+                                            that.globalData.date = res.data.date,
+                                            that.globalData.startDate = res.data.startDate,
+                                            that.globalData.endDate = res.data.endDate
+                                        wx.hideLoading()
+                                    } else {
+                                        wx.hideLoading()
+                                        wx.navigateTo({ //新用户前往认证
+                                            url: 'pages/auth/auth',
+                                        })
+                                    }
 
-                                    wx.hideLoading()
+
                                 } else {
                                     wx.hideLoading()
                                     wx.showToast({
-                                        title: '网络不太畅通，请检查网络，再关闭微信重试',
+                                        title: '抱歉，请关闭微信重试',
                                         icon: 'none',
                                         duration: 10000,
                                         mask: true,
@@ -89,7 +100,7 @@ App({
         endDate: '',
         startDate: '',
         date: '',
-        userPhone: '',
+        userPhone: false,
         username: '',
         openId: '',
         userId: '',

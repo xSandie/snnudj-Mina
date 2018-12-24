@@ -1,4 +1,5 @@
-// pages/pubSignOn/pubSignOn.js
+const urlModel = require('../../utils/urlSet.js')
+const app = getApp()
 Page({
 
     /**
@@ -19,7 +20,12 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-
+        this.setData({
+            CodeGen: false,
+            date: app.globalData.date,
+            endDate: app.globalData.endDate,
+            startDate: app.globalData.startDate
+        })
     },
 
     /**
@@ -54,7 +60,29 @@ Page({
      * 页面相关事件处理函数--监听用户下拉动作
      */
     onPullDownRefresh: function() {
+        if (this.data.signInId == '') {
+            return
+        } else {
+            var that = this
+            wx.request({
+                url: urlModel.url.refreshPubSignIn,
+                method: 'GET',
+                data: {
+                    'userId': app.globalData.userId,
+                    'signInId': that.data.signInId
+                },
+                success: function(res) {
+                    if (res.statusCode == 200) {
+                        that.setData({
+                            CodeURl: res.data.CodeURl,
+                            CodeGen: true,
+                            createTime: res.data.createTime
+                        })
+                    } else {}
+                }
+            })
 
+        }
     },
 
     /**
@@ -87,6 +115,28 @@ Page({
             formData.peopleNum = 100
         }
         console.log(formData)
+            //TODO:点击发布并生成二维码
+        var that = this
+        wx.request({
+            url: urlModel.url.pubSignIn,
+            method: 'POST',
+            data: {
+                'userId': app.globalData.userId,
+                'peopleNum': formData.peopleNum,
+                'endDateTime': formData.endDate + ' ' + formData.endTime
+            },
+            success: function(res) {
+                if (res.statusCode == 200) {
+                    that.setData({
+                        createTime: res.data.createTime,
+                        CodeURl: res.data.CodeURl,
+                        CodeGen: true,
+                        signInId: res.data.signInId
+                    })
+                } else {}
+            }
+        })
+
     },
     saveImg: function() {
         console.log('保存二维码')

@@ -1,4 +1,4 @@
-// pages/suggestion/suggestion.js
+const urlModel = require('../../utils/urlSet.js')
 const app = getApp()
 Page({
 
@@ -52,6 +52,23 @@ Page({
         this.setData({
             admin: app.globalData.admin
         })
+        var that = this
+        wx.request({
+            url: urlModel.url.getSuggestion,
+            method: 'GET',
+            data: {
+                'userId': app.globalData.userId,
+                'nextPage': that.data.nextPage
+            },
+            success: function(res) {
+                if (res.statusCode == 200) {
+                    that.setData({
+                        suggestions: res.data.suggestions
+                    })
+                }
+            }
+        })
+
     },
 
     /**
@@ -98,7 +115,28 @@ Page({
      * 页面相关事件处理函数--监听用户下拉动作
      */
     onPullDownRefresh: function() {
+        var that = this
+        this.setData({
+            nextPage: 1
+        })
+        setTimeout(function() {
 
+        }, 500);
+        wx.request({
+            url: urlModel.url.getSuggestion,
+            method: 'GET',
+            data: {
+                'userId': app.globalData.userId,
+                'nextPage': that.data.nextPage
+            },
+            success: function(res) {
+                if (res.statusCode == 200) {
+                    that.setData({
+                        suggestions: res.data.suggestions
+                    })
+                }
+            }
+        })
     },
     navbarTap: function(e) {
         var that = this
@@ -106,6 +144,46 @@ Page({
             currentTab: e.currentTarget.dataset.idx,
             nextPage: 1
         })
+        setTimeout(function() {}, 500);
+        if (this.data.currentTab == 1) {
+            //TODO:切换到忽略页面
+            wx.request({
+                url: urlModel.url.getIgnoreSuggestion,
+                method: 'GET',
+                data: {
+                    'userId': app.globalData.userId,
+                    'nextPage': this.data.nextPage
+                },
+                success: function(res) {
+                    if (res.statusCode == 200) {
+
+                    }
+                }
+            })
+
+        } else {
+            //TODO:切换到建议页面
+            wx.request({
+                url: urlModel.url.getSuggestion,
+                method: 'GET',
+                data: {
+                    'userId': app.globalData.userId,
+                    'nextPage': this.data.nextPage
+                },
+                success: function(res) {
+                    if (res.statusCode == 200) {
+
+                    }
+                }
+            })
+
+        }
+
+    },
+    IgnoreSug: function(e) {
+        var selectId = e.currentTarget.dataset.id
+            //TODO:忽略建议，先弹窗是否确定
+
     },
     reply: function(e) {
         var that = this
@@ -135,5 +213,86 @@ Page({
                 suggestions: tempSug
             })
             // console.log(this.data.suggestions)
+    },
+    pubSuggest: function(e) {
+        var that = this
+        console.log(e);
+        //TODO:发布建议
+        var send_data = {
+
+        }
+        wx.request({
+            url: urlModel.url.pubSuggestion,
+            method: 'POST',
+            data: send_data,
+            success: function(res) {
+                if (res.statusCode == 200) {
+
+                }
+            }
+        })
+
+    },
+    pubReply: function(e) {
+        var that = this
+        console.log(e);
+        //TODO:发布回复
+        var send_data = {
+
+        }
+        wx.request({
+            url: urlModel.url.replySuggestion,
+            method: 'POST',
+            data: send_data,
+            success: function(res) {
+                if (res.statusCode == 200) {
+
+                }
+            }
+        })
+
+    },
+    moreIgnore: function() {
+        var that = this
+        this.setData({
+            nextPage: that.data.nextPage + 1
+        })
+        setTimeout(function() {}, 500);
+        wx.request({
+            url: urlModel.url.getIgnoreSuggestion,
+            method: 'GET',
+            data: {
+                'userId': app.globalData.userId,
+                'nextPage': this.data.nextPage
+            },
+            success: function(res) {
+                if (res.statusCode == 200) {
+                    //TODO:更多忽略建议
+                }
+            }
+        })
+
+    },
+    moreSuggestion: function() {
+        //TODO:更多建议
+        var that = this
+        this.setData({
+            nextPage: that.data.nextPage + 1
+        })
+        setTimeout(function() {}, 500);
+        wx.request({
+            url: urlModel.url.getSuggestion,
+            method: 'GET',
+            data: {
+                'userId': app.globalData.userId,
+                'nextPage': this.data.nextPage
+            },
+            success: function(res) {
+                if (res.statusCode == 200) {
+
+                }
+            }
+        })
+
     }
 })
