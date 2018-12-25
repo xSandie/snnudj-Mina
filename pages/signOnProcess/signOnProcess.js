@@ -42,6 +42,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
+        var that = this
         if (options.Id) {
             console.log(options.Id)
                 //TODO:首页进入逻辑
@@ -49,7 +50,10 @@ Page({
             this.setData({
                 signInId: signInId
             })
-            var that = this
+            wx.showLoading({
+                title: '加载中',
+                mask: true
+            })
             wx.request({
                 url: urlModel.url.pubSignInDetail,
                 method: 'GET',
@@ -69,9 +73,27 @@ Page({
                             needSignIn: res.data.needSignIn,
                             qrCode: res.data.qrCode
                         })
-                    } else {}
+                        wx.hideLoading()
+                    } else {
+                        wx.hideLoading()
+                        wx.showToast({
+                            title: '加载失败，请重试',
+                            icon: 'none',
+                            duration: 2000
+                        })
+                    }
+                },
+                fail: function() {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '加载失败，请重试',
+                        icon: 'none',
+                        duration: 2000
+                    })
                 }
             })
+
+
 
         } else {
             //TODO:扫码进入逻辑，考虑从普通签到页面跳转
@@ -97,12 +119,16 @@ Page({
      */
     onPullDownRefresh: function() {
         var that = this
+        wx.showLoading({
+            title: '刷新中',
+            mask: true
+        })
         wx.request({
             url: urlModel.url.pubSignInDetail,
             method: 'GET',
             data: {
                 'userId': app.globalData.userId,
-                'signInId': this.data.signInId
+                'signInId': that.data.signInId
             },
             success: function(res) {
                 if (res.statusCode == 200) {
@@ -116,7 +142,28 @@ Page({
                         needSignIn: res.data.needSignIn,
                         qrCode: res.data.qrCode
                     })
-                } else {}
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '刷新成功',
+                        icon: 'success',
+                        duration: 2000
+                    })
+                } else {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '刷新失败',
+                        icon: 'none',
+                        duration: 2000
+                    })
+                }
+            },
+            fail: function() {
+                wx.hideLoading()
+                wx.showToast({
+                    title: '刷新失败，请重试',
+                    icon: 'none',
+                    duration: 2000
+                })
             }
         })
     },
@@ -126,7 +173,11 @@ Page({
      * 用户点击右上角分享
      */
     onShareAppMessage: function() {
-
+        var that = this
+        return {
+            title: that.data.username + '发起的签到',
+            path: '/pages/signIn/signIn?Id=' + that.data.signInId
+        }
     },
     finSignIn: function() {
         var that = this
@@ -176,6 +227,68 @@ Page({
         })
     },
     getQRCode: function() {
+        console.log('保存二维码')
+        var that = this
+        wx.showModal({
+            title: '选择',
+            content: '查看二维码还是直接保存？',
+            confirmText: '查看二维码',
+            cancelText: '保存',
+            cancelColor: '#F40B31',
+            confirmColor: '#999ba1',
+            success: function(res) {
+                //确定查看取消保存
+                if (res.confirm) {
+                    wx.previewImage({
+                        urls: [that.data.qrCode],
+                    })
+                } else {
+                    wx.authorize({
+                        scope: 'scope.writePhotosAlbum',
+                        success() {
+                            // console.log("2-授权《保存图片》权限成功");
+                            // util.downloadImage(downloadUrl);
+                            wx.downloadFile({
+                                url: that.data.qrCode,
+                                success: function(res) {
+                                    // console.log(res)
+                                    wx.saveImageToPhotosAlbum({
+                                        filePath: res.tempFilePath,
+                                        success: function(res) {
+                                            // console.log(res)
+                                            wx.showToast({
+                                                title: '保存成功',
+                                                icon: 'success',
+                                                duration: 2000
+                                            })
+                                        },
+                                        fail: function(res) {
+                                            wx.showToast({
+                                                title: '保存失败，请重试',
+                                                icon: 'none',
+                                                duration: 2000
+                                            })
+                                        }
+                                    })
+                                },
+                                fail: function() {
+                                    // console.log('fail')
+                                }
+                            })
+                        },
+                        fail() {
+                            // 用户拒绝了授权  
+                            // console.log("2-授权《保存图片》权限失败");
+                            // 打开设置页面 
+                            wx.showToast({
+                                title: '请再次点击，并授权',
+                                icon: 'none'
+                            })
+                        }
+                    })
+                }
+            }
+        })
 
     },
     tempOpenSignIn: function() {
@@ -189,6 +302,10 @@ Page({
             success: function(res) {
                 if (res.confirm) {
                     //TODO:临时开启十分钟逻辑，调用下拉刷新
+                    wx.showLoading({
+                        title: '开启中',
+                        mask: true
+                    })
                     wx.request({
                         url: urlModel.url.tempOpen,
                         method: 'POST',
@@ -198,8 +315,29 @@ Page({
                         },
                         success: function(res) {
                             if (res.statusCode == 200) {
+                                wx.hideLoading()
+                                wx.showToast({
+                                    title: '开启成功',
+                                    icon: 'success',
+                                    duration: 2000
+                                })
                                 that.onPullDownRefresh()
-                            } else {}
+                            } else {
+                                wx.hideLoading()
+                                wx.showToast({
+                                    title: '失败，请重试',
+                                    icon: 'none',
+                                    duration: 2000
+                                })
+                            }
+                        },
+                        fail: function() {
+                            wx.hideLoading()
+                            wx.showToast({
+                                title: '失败，请重试',
+                                icon: 'none',
+                                duration: 2000
+                            })
                         }
                     })
 

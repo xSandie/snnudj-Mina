@@ -37,9 +37,7 @@ Page({
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function() {
-        //同步与全局的信息
-    },
+    onShow: function() {},
 
     /**
      * 生命周期函数--监听页面隐藏
@@ -89,18 +87,41 @@ Page({
             'userPhone': formData.userPhone,
             'userId': app.globalData.userId
         }
+        wx.showLoading({
+            title: '修改中',
+            mask: true
+        })
         wx.request({
             url: urlModel.url.changeUserInfo,
             method: 'POST',
             data: send_data,
             success: function(res) {
                 if (res.statusCode == 200) {
+                    wx.hideLoading()
                     app.getUser().then(function() {
+                        wx.showToast({
+                            title: '修改成功',
+                            icon: 'success',
+                            duration: 2000
+                        })
                         that.onLoad()
                     })
                 } else {
-
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '修改失败，请重试',
+                        icon: 'none',
+                        duration: 2000
+                    })
                 }
+            },
+            fail: function() {
+                wx.hideLoading()
+                wx.showToast({
+                    title: '修改失败，请检查网络',
+                    icon: 'none',
+                    duration: 2000
+                })
             }
         })
     },
@@ -131,18 +152,42 @@ Page({
             'userPhone': formData.userPhone,
             'userId': app.globalData.userId
         }
+        wx.showLoading({
+            title: '注册中',
+            mask: true
+        })
         wx.request({
             url: urlModel.url.register,
             method: 'POST',
             data: send_data,
             success: function(res) {
                 if (res.statusCode == 200) {
+                    wx.hideLoading()
                     app.getUser().then(function() {
+
+                        wx.showToast({
+                            title: '注册成功',
+                            icon: 'success',
+                            duration: 2000
+                        })
                         that.onLoad()
                     })
                 } else {
-
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '注册失败，请重试',
+                        icon: 'none',
+                        duration: 2000
+                    })
                 }
+            },
+            fail: function() {
+                wx.hideLoading()
+                wx.showToast({
+                    title: '注册失败，请检查网络',
+                    icon: 'none',
+                    duration: 2000
+                })
             }
         })
     }

@@ -63,6 +63,10 @@ Page({
         if (this.data.signInId == '') {
             return
         } else {
+            wx.showLoading({
+                title: '刷新中',
+                mask: true
+            })
             var that = this
             wx.request({
                 url: urlModel.url.refreshPubSignIn,
@@ -78,7 +82,28 @@ Page({
                             CodeGen: true,
                             createTime: res.data.createTime
                         })
-                    } else {}
+                        wx.hideLoading()
+                        wx.showToast({
+                            title: '刷新成功',
+                            icon: 'success',
+                            duration: 2000
+                        })
+                    } else {
+                        wx.hideLoading()
+                        wx.showToast({
+                            title: '刷新失败，请重试',
+                            icon: 'none',
+                            duration: 2000
+                        })
+                    }
+                },
+                fail: function() {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '刷新失败，请检查网络',
+                        icon: 'none',
+                        duration: 2000
+                    })
                 }
             })
 
@@ -86,16 +111,21 @@ Page({
     },
 
     /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function() {
-
-    },
-
-    /**
      * 用户点击右上角分享
      */
     onShareAppMessage: function() {
+        var that = this
+        if (that.data.signInId != '') {
+            return {
+                title: app.globalData.username + '发起的签到',
+                path: '/pages/signIn/signIn?Id=' + that.data.signInId
+            }
+        } else {
+            return {
+                title: '快来发布签到吧',
+                path: '/pages/home/home'
+            }
+        }
 
     },
     bindDateChange: function(e) {
@@ -116,6 +146,10 @@ Page({
         }
         console.log(formData)
             //TODO:点击发布并生成二维码
+        wx.showLoading({
+            title: '发布中',
+            mask: true
+        })
         var that = this
         wx.request({
             url: urlModel.url.pubSignIn,
@@ -133,12 +167,83 @@ Page({
                         CodeGen: true,
                         signInId: res.data.signInId
                     })
-                } else {}
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '发布成功',
+                        icon: 'success',
+                        duration: 2000
+                    })
+                } else {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '发布失败，请重试',
+                        icon: 'none',
+                        duration: 2000
+                    })
+                }
+            },
+            fail: function() {
+                wx.hideLoading()
+                wx.showToast({
+                    title: '发布失败，请重试',
+                    icon: 'none',
+                    duration: 2000
+                })
             }
         })
 
     },
+    viewImg: function() {
+        var that = this
+        wx.previewImage({
+            urls: [that.data.CodeURl],
+        })
+    },
     saveImg: function() {
         console.log('保存二维码')
+        var that = this
+        wx.authorize({
+            scope: 'scope.writePhotosAlbum',
+            success() {
+                // console.log("2-授权《保存图片》权限成功");
+                // util.downloadImage(downloadUrl);
+                wx.downloadFile({
+                    url: that.data.CodeURl,
+                    success: function(res) {
+                        // console.log(res)
+                        wx.saveImageToPhotosAlbum({
+                            filePath: res.tempFilePath,
+                            success: function(res) {
+                                // console.log(res)
+                                wx.showToast({
+                                    title: '保存成功',
+                                    icon: 'success',
+                                    duration: 2000
+                                })
+                            },
+                            fail: function(res) {
+                                wx.showToast({
+                                    title: '保存失败，请重试',
+                                    icon: 'none',
+                                    duration: 2000
+                                })
+                            }
+                        })
+                    },
+                    fail: function() {
+                        // console.log('fail')
+                    }
+                })
+            },
+            fail() {
+                // 用户拒绝了授权  
+                // console.log("2-授权《保存图片》权限失败");
+                // 打开设置页面 
+                wx.showToast({
+                    title: '请再次点击，并授权',
+                    icon: 'none'
+                })
+            }
+        })
     }
 })

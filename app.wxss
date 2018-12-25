@@ -96,7 +96,7 @@ page {
 
 .main_btn {
     width: 460rpx;
-    background: linear-gradient(90deg, rgb(244, 11, 49), rgb(253, 96, 126));
+    background: linear-gradient(90deg, #F40B31, rgb(253, 96, 126));
     display: flex;
     justify-content: center;
     text-align: center;

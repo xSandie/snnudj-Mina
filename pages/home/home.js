@@ -271,15 +271,16 @@ Page({
         this.setData({
             nextPage: that.data.nextPage + 1
         })
-        wx.showLoading({
-            title: '加载中',
-            mask: true
-        })
+
         setTimeout(function() {
 
         }, 500);
         if (this.data.currentTab == 1) {
             //TODO: 获取已完成下一页
+            wx.showLoading({
+                title: '加载中',
+                mask: true
+            })
             wx.request({
                 url: urlModel.url.getFinSignIn,
                 method: 'GET',
@@ -456,6 +457,10 @@ Page({
             success: function(res) {
                 if (res.confirm) {
                     //TODO:临时开启十分钟逻辑，调用下拉刷新
+                    wx.showLoading({
+                        title: '开启中',
+                        mask: true
+                    })
                     wx.request({
                         url: urlModel.url.tempOpen,
                         method: 'POST',
@@ -465,8 +470,30 @@ Page({
                         },
                         success: function(res) {
                             if (res.statusCode == 200) {
+                                wx.hideLoading()
+                                wx.showToast({
+                                    title: '开启成功',
+                                    icon: 'success',
+                                    duration: 2000
+                                })
                                 that.onPullDownRefresh()
-                            } else {}
+
+                            } else {
+                                wx.hideLoading()
+                                wx.showToast({
+                                    title: '失败，请重试',
+                                    icon: 'none',
+                                    duration: 2000
+                                })
+                            }
+                        },
+                        fail: function() {
+                            wx.hideLoading()
+                            wx.showToast({
+                                title: '失败，请重试',
+                                icon: 'none',
+                                duration: 2000
+                            })
                         }
                     })
 

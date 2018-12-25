@@ -3,7 +3,6 @@
       "pages/home/home",
       "pages/suggestion/suggestion",
       "pages/signIn/signIn",
-      
       "pages/auth/auth",
       "pages/myCenter/myCenter",
       "pages/signOnProcess/signOnProcess",

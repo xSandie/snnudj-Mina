@@ -57,6 +57,10 @@ Page({
      */
     onPullDownRefresh: function() {
         var that = this
+        wx.showLoading({
+            title: '刷新中',
+            mask: true
+        })
         wx.request({
             url: urlModel.url.getMyInfo,
             method: 'GET',
@@ -72,7 +76,28 @@ Page({
                         totalJoin: res.data.totalJoin,
                         totalPub: res.data.totalPub
                     })
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '刷新成功',
+                        icon: 'success',
+                        duration: 2000
+                    })
+                } else {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '刷新失败，请重试',
+                        icon: 'none',
+                        duration: 2000
+                    })
                 }
+            },
+            fail: function() {
+                wx.hideLoading()
+                wx.showToast({
+                    title: '刷新失败,请检查网络',
+                    icon: 'none',
+                    duration: 2000
+                })
             }
         })
     },

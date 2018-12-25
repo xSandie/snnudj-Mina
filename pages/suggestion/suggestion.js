@@ -49,6 +49,10 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
+        wx.showLoading({
+            title: '获取中',
+            mask: true
+        })
         this.setData({
             admin: app.globalData.admin
         })
@@ -62,10 +66,31 @@ Page({
             },
             success: function(res) {
                 if (res.statusCode == 200) {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '获取成功',
+                        icon: 'success',
+                        duration: 2000
+                    })
                     that.setData({
                         suggestions: res.data.suggestions
                     })
+                } else {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '获取失败，请重试',
+                        icon: 'none',
+                        duration: 2000
+                    })
                 }
+            },
+            fail: function() {
+                wx.hideLoading()
+                wx.showToast({
+                    title: '失败，请检查网络',
+                    icon: 'none',
+                    duration: 2000
+                })
             }
         })
 
@@ -116,8 +141,14 @@ Page({
      */
     onPullDownRefresh: function() {
         var that = this
+            //不考虑忽略那块的刷新
         this.setData({
-            nextPage: 1
+            nextPage: 1,
+            currentTab: 0
+        })
+        wx.showLoading({
+            title: '刷新中',
+            mask: true
         })
         setTimeout(function() {
 
@@ -131,10 +162,31 @@ Page({
             },
             success: function(res) {
                 if (res.statusCode == 200) {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '刷新成功',
+                        icon: 'success',
+                        duration: 2000
+                    })
                     that.setData({
                         suggestions: res.data.suggestions
                     })
+                } else {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '失败，请重试',
+                        icon: 'none',
+                        duration: 2000
+                    })
                 }
+            },
+            fail: function() {
+                wx.hideLoading()
+                wx.showToast({
+                    title: '刷新失败，请检查网络',
+                    icon: 'none',
+                    duration: 2000
+                })
             }
         })
     },
@@ -156,7 +208,9 @@ Page({
                 },
                 success: function(res) {
                     if (res.statusCode == 200) {
-
+                        that.setData({
+                            ignoreSug: res.data.ignoreSug
+                        })
                     }
                 }
             })
@@ -172,7 +226,9 @@ Page({
                 },
                 success: function(res) {
                     if (res.statusCode == 200) {
-
+                        that.setData({
+                            suggestions: res.data.suggestions
+                        })
                     }
                 }
             })
@@ -183,6 +239,55 @@ Page({
     IgnoreSug: function(e) {
         var selectId = e.currentTarget.dataset.id
             //TODO:忽略建议，先弹窗是否确定
+        var that = this
+        wx.showModal({
+            title: '注意',
+            content: '忽略后无法恢复',
+            confirmText: '取消',
+            confirmColor: '#F40B31',
+            cancelText: '确认忽略',
+            success: function(res) {
+                if (res.confirm) {
+                    return
+                } else {
+                    //TODO:发起忽略请求
+                    wx.request({
+                        url: urlModel.url.IgnoreSuggestion,
+                        method: 'POST',
+                        data: {
+                            'userId': app.globalData.userId,
+                            'sugId': selectId
+                        },
+                        success: function(res) {
+                            if (res.statusCode == 200) {
+                                wx.showToast({
+                                    title: '已忽略',
+                                    icon: 'success',
+                                    duration: 2000
+                                })
+                                that.onLoad()
+                            } else {
+                                wx.showToast({
+                                    title: '失败，请重试',
+                                    icon: 'none',
+                                    duration: 2000
+                                })
+                            }
+                        },
+                        fail: function() {
+
+                            wx.showToast({
+                                title: '失败，请检查网络',
+                                icon: 'none',
+                                duration: 2000
+                            })
+                        }
+                    })
+
+                }
+            }
+
+        })
 
     },
     reply: function(e) {
@@ -218,8 +323,14 @@ Page({
         var that = this
         console.log(e);
         //TODO:发布建议
+        wx.showLoading({
+            title: '发布中',
+            mask: true
+        })
         var send_data = {
-
+            'userId': app.globalData.userId,
+            'content': e.detail.value.content,
+            'title': e.detail.value.title
         }
         wx.request({
             url: urlModel.url.pubSuggestion,
@@ -227,8 +338,29 @@ Page({
             data: send_data,
             success: function(res) {
                 if (res.statusCode == 200) {
-
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '发布成功',
+                        icon: 'success',
+                        duration: 2000
+                    })
+                    that.onPullDownRefresh()
+                } else {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '失败，请重试',
+                        icon: 'none',
+                        duration: 2000
+                    })
                 }
+            },
+            fail: function() {
+                wx.hideLoading()
+                wx.showToast({
+                    title: '失败，请检查网络',
+                    icon: 'none',
+                    duration: 2000
+                })
             }
         })
 
@@ -238,19 +370,47 @@ Page({
         console.log(e);
         //TODO:发布回复
         var send_data = {
-
+            'sugId': that.data.replySuggestionId,
+            'userId': app.globalData.userId,
+            'content': e.detail.value.content
         }
-        wx.request({
-            url: urlModel.url.replySuggestion,
-            method: 'POST',
-            data: send_data,
-            success: function(res) {
-                if (res.statusCode == 200) {
-
+        if (that.data.replySuggestionId) {
+            wx.showLoading({
+                title: '回复中',
+                mask: true
+            })
+            wx.request({
+                url: urlModel.url.replySuggestion,
+                method: 'POST',
+                data: send_data,
+                success: function(res) {
+                    if (res.statusCode == 200) {
+                        wx.hideLoading()
+                        wx.showToast({
+                            title: '回复成功',
+                            icon: 'success',
+                            duration: 2000
+                        })
+                        that.onPullDownRefresh()
+                    } else {
+                        wx.hideLoading()
+                        wx.showToast({
+                            title: '回复失败，请重试',
+                            icon: 'none',
+                            duration: 2000
+                        })
+                    }
+                },
+                fail: function() {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '回复失败，请检查网络',
+                        icon: 'none',
+                        duration: 2000
+                    })
                 }
-            }
-        })
-
+            })
+        }
     },
     moreIgnore: function() {
         var that = this
@@ -268,7 +428,26 @@ Page({
             success: function(res) {
                 if (res.statusCode == 200) {
                     //TODO:更多忽略建议
+                    that.setData({
+                        ignoreSug: that.data.ignoreSug.concat(res.data.ignoreSug)
+                    })
+                    wx.hideLoading()
+                } else {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '加载失败，请重试',
+                        icon: 'none',
+                        duration: 2000
+                    })
                 }
+            },
+            fail: function() {
+                wx.hideLoading()
+                wx.showToast({
+                    title: '失败，请检查网络',
+                    icon: 'none',
+                    duration: 2000
+                })
             }
         })
 
@@ -276,6 +455,10 @@ Page({
     moreSuggestion: function() {
         //TODO:更多建议
         var that = this
+        wx.showLoading({
+            title: '加载中',
+            mask: true
+        })
         this.setData({
             nextPage: that.data.nextPage + 1
         })
@@ -289,8 +472,26 @@ Page({
             },
             success: function(res) {
                 if (res.statusCode == 200) {
-
+                    that.setData({
+                        suggestions: that.data.suggestions.concat(res.data.suggestions)
+                    })
+                    wx.hideLoading()
+                } else {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '加载失败，请重试',
+                        icon: 'none',
+                        duration: 2000
+                    })
                 }
+            },
+            fail: function() {
+                wx.hideLoading()
+                wx.showToast({
+                    title: '失败，请检查网络',
+                    icon: 'none',
+                    duration: 2000
+                })
             }
         })
 

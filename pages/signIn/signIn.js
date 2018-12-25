@@ -20,33 +20,126 @@ Page({
      */
     onLoad: function(options) {
         //TODO:主页进入逻辑
+        var that = this
         if (options.Id) {
             var signInId = options.Id
-            this.setData({
-                signInId: signInId
-            })
-            console.log(signInId)
-            var that = this
-            wx.request({
-                url: urlModel.url.SignInDetail,
-                method: 'GET',
-                data: {
-                    'userId': app.globalData.userId,
-                    'signInId': signInId
-                },
-                success: function(res) {
-                    if (res.statusCode == 200) {
-                        that.setData({
-                            pubuserName: res.data.pubuserName,
-                            pubuserPhone: res.data.pubuserPhone,
-                            endTime: res.data.endTime,
-                            signInNum: res.data.signInNum,
-                            canSignIn: res.data.canSignIn
+            if (!app.globalData.userPhone) {
+                //点击分享链接进入
+                app.getUser().then(function(res) {
+                    var signInId = options.Id
+                    that.setData({
+                        signInId: signInId
+                    })
+                    console.log(signInId)
+                    wx.showLoading({
+                        title: '加载中',
+                        mask: true
+                    })
+                    wx.request({
+                        url: urlModel.url.SignInDetail,
+                        method: 'GET',
+                        data: {
+                            'userId': app.globalData.userId,
+                            'signInId': signInId
+                        },
+                        success: function(res) {
+                            if (res.statusCode == 200) {
+                                that.setData({
+                                    pubuserName: res.data.pubuserName,
+                                    pubuserPhone: res.data.pubuserPhone,
+                                    endTime: res.data.endTime,
+                                    signInNum: res.data.signInNum,
+                                    canSignIn: res.data.canSignIn
+                                })
+                                wx.hideLoading()
+                                wx.showToast({
+                                    title: '加载成功',
+                                    icon: 'success',
+                                    duration: 2000
+                                })
+                            } else if (res.statusCode == 403) {
+                                wx.hideLoading()
+                                wx.showToast({
+                                    title: '您无法为您发布的签到签到',
+                                    icon: 'none',
+                                    duration: 2000
+                                })
+                                setTimeout(function() {
+                                  wx.redirectTo({
+                                    url: '../home/home',
+                                  })
+                                }, 500);
+                            } else {
+                                wx.hideLoading()
+                                wx.showToast({
+                                    title: '加载失败',
+                                    icon: 'none',
+                                    duration: 2000
+                                })
+                            }
+                        },
+                        fail: function() {
+                            wx.hideLoading()
+                            wx.showToast({
+                                title: '刷新失败',
+                                icon: 'none',
+                                duration: 2000
+                            })
+                        }
+                    })
+                })
+            } else {
+                var signInId = options.Id
+                wx.showLoading({
+                    title: '刷新中',
+                    mask: true
+                })
+                this.setData({
+                    signInId: signInId
+                })
+                console.log(signInId)
+                var that = this
+                wx.request({
+                    url: urlModel.url.SignInDetail,
+                    method: 'GET',
+                    data: {
+                        'userId': app.globalData.userId,
+                        'signInId': signInId
+                    },
+                    success: function(res) {
+                        if (res.statusCode == 200) {
+                            that.setData({
+                                pubuserName: res.data.pubuserName,
+                                pubuserPhone: res.data.pubuserPhone,
+                                endTime: res.data.endTime,
+                                signInNum: res.data.signInNum,
+                                canSignIn: res.data.canSignIn
+                            })
+                            wx.hideLoading()
+                            wx.showToast({
+                                title: '加载成功',
+                                icon: 'success',
+                                duration: 2000
+                            })
+                        } else {
+                            wx.hideLoading()
+                            wx.showToast({
+                                title: '加载失败',
+                                icon: 'none',
+                                duration: 2000
+                            })
+                        }
+                    },
+                    fail: function() {
+                        wx.hideLoading()
+                        wx.showToast({
+                            title: '加载失败',
+                            icon: 'none',
+                            duration: 2000
                         })
-                    } else {}
-                }
-            })
-
+                    }
+                })
+            }
         } else {
             //TODO:扫码进入逻辑
 
@@ -85,14 +178,19 @@ Page({
      * TODO:页面相关事件处理函数--监听用户下拉动作
      */
     onPullDownRefresh: function() {
+
         var that = this
         if (this.data.signInId != '') {
+            wx.showLoading({
+                title: '刷新中',
+                mask: true
+            })
             wx.request({
                 url: urlModel.url.SignInDetail,
                 method: 'GET',
                 data: {
                     'userId': app.globalData.userId,
-                    'signInId': signInId
+                    'signInId': this.data.signInId
                 },
                 success: function(res) {
                     if (res.statusCode == 200) {
@@ -103,7 +201,28 @@ Page({
                             signInNum: res.data.signInNum,
                             canSignIn: res.data.canSignIn
                         })
-                    } else {}
+                        wx.hideLoading()
+                        wx.showToast({
+                            title: '刷新成功',
+                            icon: 'success',
+                            duration: 2000
+                        })
+                    } else {
+                        wx.hideLoading()
+                        wx.showToast({
+                            title: '刷新失败',
+                            icon: 'none',
+                            duration: 2000
+                        })
+                    }
+                },
+                fail: function() {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '刷新失败',
+                        icon: 'none',
+                        duration: 2000
+                    })
                 }
             })
         }
@@ -115,11 +234,19 @@ Page({
      * TODO:用户点击右上角分享
      */
     onShareAppMessage: function() {
-
+        var that = this
+        return {
+            title: that.data.pubuserName + '发起的签到',
+            path: '/pages/signIn/signIn?Id=' + that.data.signInId
+        }
     },
     signIn: function() {
         //TODO:点击签到逻辑
         var that = this
+        wx.showLoading({
+            title: '签到中',
+            mask: true
+        })
         wx.request({
             url: urlModel.url.SignIn,
             method: 'POST',
@@ -129,8 +256,32 @@ Page({
             },
             success: function(res) {
                 if (res.statusCode == 200) {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '签到成功',
+                        icon: 'success',
+                        duration: 2000
+                    })
+                    setTimeout(function() {
+
+                    }, 1000);
                     that.onPullDownRefresh()
-                } else {}
+                } else {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '签到失败，请重试',
+                        icon: 'none',
+                        duration: 2000
+                    })
+                }
+            },
+            fail: function() {
+                wx.hideLoading()
+                wx.showToast({
+                    title: '签到失败，请重试',
+                    icon: 'none',
+                    duration: 2000
+                })
             }
         })
 
