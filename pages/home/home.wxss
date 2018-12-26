@@ -214,3 +214,13 @@
     width: 180rpx;
     align-self: center;
 }
+
+.blank {
+    display: block;
+    box-sizing: border-box;
+    width: 400rpx;
+    height: 600rpx;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40rpx;
+}

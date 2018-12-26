@@ -18,22 +18,8 @@ Page({
             'signInTime': '05-07 16:00',
             'endTime': '11-29 21:00',
             'signInId': 123
-        }, {
-            'pubPhoneNum': 18349250473,
-            'pubName': '向书晗',
-            'signInTotal': 90,
-            'signInTime': '05-07 16:00',
-            'endTime': '11-29 21:00',
-            'signInId': 123
         }],
         pubAct: [{
-                'pubTime': '11-29 18:00',
-                'haveSignIn': 89,
-                'needSignIn': 90,
-                'urgent': true,
-                'endTime': '11-29 21:00',
-                'signInId': 123
-            }, {
                 'pubTime': '11-29 18:00',
                 'haveSignIn': 89,
                 'needSignIn': 90,
@@ -50,32 +36,18 @@ Page({
             'signInTime': '05-07 16:00',
             'endTime': '11-29 21:00',
             'signInId': 123
-        }, {
-            'pubPhoneNum': 18349250473,
-            'pubName': '向书晗',
-            'signInTotal': 90,
-            'signInTime': '05-07 16:00',
+        }],
+        finPubAct: [{
+            'pubTime': '11-29 18:00',
+            'haveSignIn': 89,
+            'needSignIn': 90,
+            'urgent': true,
             'endTime': '11-29 21:00',
             'signInId': 123
         }],
-        finPubAct: [{
-                'pubTime': '11-29 18:00',
-                'haveSignIn': 89,
-                'needSignIn': 90,
-                'urgent': true,
-                'endTime': '11-29 21:00',
-                'signInId': 123
-            }, {
-                'pubTime': '11-29 18:00',
-                'haveSignIn': 89,
-                'needSignIn': 90,
-                'urgent': true,
-                'endTime': '11-29 21:00',
-                'signInId': 123
-            }
-
-        ],
-        timeIcon: '../../images/timeIcon.png'
+        timeIcon: '../../images/timeIcon.png',
+        blank: false,
+        blankIcon: '../../images/blank.png'
     },
 
     /**
@@ -105,6 +77,11 @@ Page({
                             joinedAct: res.data.joinedAct,
                             pubAct: res.data.pubAct
                         })
+                        if (res.data.joinedAct.length == 0 && res.data.pubAct.length == 0) {
+                            that.setData({
+                                blank: true
+                            })
+                        }
                         wx.hideLoading()
                         wx.showToast({
                             title: '加载成功',

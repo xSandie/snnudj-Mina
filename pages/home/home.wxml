@@ -7,42 +7,42 @@
 <view class='container'>
 <!--未完成-->  
     <view hidden="{{currentTab!==0}}"> 
-    <view class='my_grey mid_font my_bold' style='margin:28rpx 0;'>
-      <text>我参与的</text>
-    </view>
-    <view class='white_card' bindtap="toDetail" style='margin-bottom:30rpx;' data-sign-in-id="{{item.signInId}}" hover-class='card_hover' wx:for="{{joinedAct}}">
-        <view class='main-area  my_red my_bold'>
-            <text>签到</text>
-            <text style='margin-top:4rpx;'>成功</text>
-        </view>
-        <view class='col-in-card'>
-          <view class='my_grey small_font my_bold qiandao'>
-            <text>签到发起人·{{item.pubPhoneNum}}</text>
+      <view class='my_grey mid_font my_bold' hidden='{{blank}}' style='margin:28rpx 0;'>
+        <text>我参与的</text>
+      </view>
+      <view class='white_card' bindtap="toDetail" style='margin-bottom:30rpx;' data-sign-in-id="{{item.signInId}}" hover-class='card_hover' wx:for="{{joinedAct}}">
+          <view class='main-area  my_red my_bold'>
+              <text>签到</text>
+              <text style='margin-top:4rpx;'>成功</text>
           </view>
-          <view class='pub-person-sum' style='margin-bottom:6rpx;'>
-            <text class='my_black my_bold large_font'>{{item.pubName}}</text>
-            <view wx:if="{{item.admin}}" class='admin-tag xs_font gradient_red'>
-              <text>管理员</text>
+          <view class='col-in-card'>
+            <view class='my_grey small_font my_bold qiandao'>
+              <text>签到发起人·{{item.pubPhoneNum}}</text>
+            </view>
+            <view class='pub-person-sum' style='margin-bottom:6rpx;'>
+              <text class='my_black my_bold large_font'>{{item.pubName}}</text>
+              <view wx:if="{{item.admin}}" class='admin-tag xs_font gradient_red'>
+                <text>管理员</text>
+              </view>
+            </view>
+            <view class='tag-area'>
+              <view class='blue-tag xs_font'>
+                <text>{{item.signInTotal}}人已签到</text>
+              </view>
+              <view class='green-tag xs_font'>
+                <text>{{item.signInTime}}成功签到</text>
+              </view>
+            </view>
+            <view class='xs_font my_red' style='margin-bottom:4rpx;display:flex;align-items:center;'>
+              <image src="{{timeIcon}}" style='width:20rpx;height:20rpx;margin-right:6rpx;' /><text>截止时间：{{item.endTime}}</text>
             </view>
           </view>
-          <view class='tag-area'>
-            <view class='blue-tag xs_font'>
-              <text>{{item.signInTotal}}人已签到</text>
-            </view>
-            <view class='green-tag xs_font'>
-              <text>{{item.signInTime}}成功签到</text>
-            </view>
+          <view class='fake-btn normal_font my_red'>
+            <text>详情</text>
           </view>
-          <view class='xs_font my_red' style='margin-bottom:4rpx;display:flex;align-items:center;'>
-            <image src="{{timeIcon}}" style='width:20rpx;height:20rpx;margin-right:6rpx;' /><text>截止时间：{{item.endTime}}</text>
-          </view>
-        </view>
-        <view class='fake-btn normal_font my_red'>
-          <text>详情</text>
-        </view>
-    </view>
-    <!--我创建的签到-->  
-      <view class='my_black mid_font my_bold' style='margin:28rpx 0;'>
+      </view>
+      <!--我创建的签到-->  
+      <view hidden='{{blank}}' class='my_black mid_font my_bold' style='margin:28rpx 0;'>
         <text>我创建的签到</text>
       </view>
       <view class='white_card' bindtap="toPubDetail" style='margin-bottom:30rpx;' data-sign-in-id="{{item.signInId}}" hover-class='card_hover' wx:for="{{pubAct}}">
@@ -68,6 +68,7 @@
           <text>详情</text>
         </view>
       </view>
+      <image hidden='{{!blank}}' class='blank' src="{{blankIcon}}" />
     </view>
 
     <!--已结束-->  
