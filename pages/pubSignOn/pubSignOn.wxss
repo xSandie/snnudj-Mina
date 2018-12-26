@@ -103,3 +103,8 @@
 input {
     width: 90rpx;
 }
+
+.codeImgArea {
+    width: 600rpx;
+    margin-bottom: 24rpx;
+}

@@ -20,6 +20,7 @@ Page({
      */
     onLoad: function(options) {
         //TODO:主页进入逻辑
+        console.log(options)
         var that = this
         if (options.Id) {
             var signInId = options.Id
@@ -65,9 +66,9 @@ Page({
                                     duration: 2000
                                 })
                                 setTimeout(function() {
-                                  wx.redirectTo({
-                                    url: '../home/home',
-                                  })
+                                    wx.switchTab({
+                                        url: '../home/home',
+                                    })
                                 }, 500);
                             } else {
                                 wx.hideLoading()

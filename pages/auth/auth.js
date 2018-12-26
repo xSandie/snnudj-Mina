@@ -170,7 +170,9 @@ Page({
                             icon: 'success',
                             duration: 2000
                         })
-                        that.onLoad()
+                      wx.reLaunch({
+                        url: '/pages/home/home',
+                      })
                     })
                 } else {
                     wx.hideLoading()

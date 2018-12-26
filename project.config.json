@@ -27,13 +27,32 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
 			"currentL": -1,
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 1,
+			"list": [
+				{
+					"id": -1,
+					"name": "扫码",
+					"pathName": "pages/signIn/signIn",
+					"query": "Id=9",
+					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "扫码",
+					"pathName": "pages/signIn/signIn",
+					"query": "Id=1",
+					"scene": "1011"
+				}
+			]
 		}
 	}
 }

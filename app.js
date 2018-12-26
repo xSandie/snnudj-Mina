@@ -43,9 +43,10 @@ App({
                                 if (res.statusCode == 200) {
                                     console.log(res)
                                     that.globalData.openId = res.data.openId
+                                  that.globalData.userId = res.data.userId
                                     if (res.data.userPhone) {
                                         that.globalData.admin = res.data.admin,
-                                            that.globalData.userId = res.data.userId,
+                                            
                                             that.globalData.username = res.data.username,
                                             that.globalData.userPhone = res.data.userPhone,
                                             that.globalData.date = res.data.date,
@@ -55,7 +56,7 @@ App({
                                     } else {
                                         wx.hideLoading()
                                         wx.navigateTo({ //新用户前往认证
-                                            url: 'pages/auth/auth',
+                                            url: '/pages/auth/auth',
                                         })
                                     }
 

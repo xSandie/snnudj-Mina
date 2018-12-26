@@ -71,6 +71,7 @@ Page({
                             processing: res.data.processing,
                             endTime: res.data.endTime,
                             needSignIn: res.data.needSignIn,
+                            haveSignIn: res.data.haveSignIn,
                             qrCode: res.data.qrCode
                         })
                         wx.hideLoading()
@@ -140,6 +141,7 @@ Page({
                         processing: res.data.processing,
                         endTime: res.data.endTime,
                         needSignIn: res.data.needSignIn,
+                        haveSignIn: res.data.haveSignIn,
                         qrCode: res.data.qrCode
                     })
                     wx.hideLoading()
@@ -232,7 +234,7 @@ Page({
         wx.showModal({
             title: '选择',
             content: '查看二维码还是直接保存？',
-            confirmText: '查看二维码',
+            confirmText: '查看',
             cancelText: '保存',
             cancelColor: '#F40B31',
             confirmColor: '#999ba1',
