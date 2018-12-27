@@ -20,6 +20,7 @@ Page({
      */
     onLoad: function(options) {
         console.log(options)
+        var that = this
         if (options.scene) { //TODO:扫码进入逻辑
             let signInId = decodeURIComponent(options.scene);
             app.getUser().then(function(res) {
@@ -65,7 +66,7 @@ Page({
                                 wx.switchTab({
                                     url: '../home/home',
                                 })
-                            }, 500);
+                            }, 2000);
                         } else {
                             wx.hideLoading()
                             wx.showToast({
@@ -85,17 +86,15 @@ Page({
                     }
                 })
             })
-        }
-        let scene = decodeURIComponent(options.scene);
-        var that = this
-        if (options.Id) {
+        } else if (options.Id) {
             var signInId = options.Id
             if (!app.globalData.userPhone) {
                 //点击分享链接进入
                 app.getUser().then(function(res) {
                     var signInId = options.Id
                     that.setData({
-                        signInId: signInId
+                        signInId: signInId,
+                        myUsername: app.globalData.username
                     })
                     console.log(signInId)
                     wx.showLoading({
@@ -110,6 +109,8 @@ Page({
                             'signInId': signInId
                         },
                         success: function(res) {
+                            console.log('点击分享链接前，未获得用户，经历了获取用户')
+                            console.log(res)
                             if (res.statusCode == 200) {
                                 that.setData({
                                     pubuserName: res.data.pubuserName,
@@ -135,7 +136,7 @@ Page({
                                     wx.switchTab({
                                         url: '../home/home',
                                     })
-                                }, 500);
+                                }, 2000);
                             } else {
                                 wx.hideLoading()
                                 wx.showToast({
@@ -156,13 +157,15 @@ Page({
                     })
                 })
             } else {
+                //点击分享链接前，已获得用户
                 var signInId = options.Id
                 wx.showLoading({
                     title: '加载中',
                     mask: true
                 })
                 this.setData({
-                    signInId: signInId
+                    signInId: signInId,
+                    myUsername: app.globalData.username
                 })
                 console.log(signInId)
                 var that = this
@@ -174,6 +177,8 @@ Page({
                         'signInId': signInId
                     },
                     success: function(res) {
+                        console.log('点击分享链接前，已获得用户')
+                        console.log(res)
                         if (res.statusCode == 200) {
                             that.setData({
                                 pubuserName: res.data.pubuserName,
@@ -188,6 +193,19 @@ Page({
                                 icon: 'success',
                                 duration: 2000
                             })
+                        } else
+                        if (res.statusCode == 403) {
+                            wx.hideLoading()
+                            wx.showToast({
+                                title: '您无法为您发布的签到签到',
+                                icon: 'none',
+                                duration: 2000
+                            })
+                            setTimeout(function() {
+                                wx.switchTab({
+                                    url: '../home/home',
+                                })
+                            }, 2000);
                         } else {
                             wx.hideLoading()
                             wx.showToast({
@@ -207,9 +225,6 @@ Page({
                     }
                 })
             }
-        } else {
-            //TODO:扫码进入逻辑
-
         }
     },
 
@@ -224,7 +239,9 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-
+        if (app.globalData.userPhone) {
+            this.onPullDownRefresh()
+        }
     },
 
     /**
@@ -322,6 +339,8 @@ Page({
                 'signInId': that.data.signInId
             },
             success: function(res) {
+                console.log('签到')
+                console.log(res)
                 if (res.statusCode == 200) {
                     wx.hideLoading()
                     wx.showToast({

@@ -81,6 +81,10 @@ Page({
                             that.setData({
                                 blank: true
                             })
+                        } else {
+                            that.setData({
+                                blank: false
+                            })
                         }
                         wx.hideLoading()
                         wx.showToast({
@@ -123,7 +127,9 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-
+        if (app.globalData.userPhone) {
+            this.onPullDownRefresh()
+        }
     },
 
     /**
@@ -174,6 +180,7 @@ Page({
                             icon: 'success',
                             duration: 2000
                         })
+
                     } else {
                         wx.hideLoading()
                         wx.showToast({
@@ -214,6 +221,15 @@ Page({
                             icon: 'success',
                             duration: 2000
                         })
+                        if (res.data.joinedAct.length == 0 && res.data.pubAct.length == 0) {
+                            that.setData({
+                                blank: true
+                            })
+                        } else {
+                            that.setData({
+                                blank: false
+                            })
+                        }
                     } else {
                         wx.hideLoading()
                         wx.showToast({
@@ -271,6 +287,7 @@ Page({
                             finJoinedAct: that.data.finJoinedAct.concat(res.data.finJoinedAct),
                             finPubAct: that.data.finPubAct.concat(res.data.finPubAct)
                         })
+
                         wx.hideLoading()
                         wx.showToast({
                             title: '加载成功',
@@ -312,51 +329,7 @@ Page({
             nextPage: 1
         })
         setTimeout(() => {}, 500)
-        if (this.data.currentTab == 1) {
-            //TODO:切换到已完成
-            console.log(this.data.currentTab)
-            wx.showLoading({
-                title: '刷新中',
-                mask: true
-            })
-            wx.request({
-                url: urlModel.url.getFinSignIn,
-                method: 'GET',
-                data: {
-                    'userId': app.globalData.userId,
-                    'nextPage': that.data.nextPage
-                },
-                success: function(res) {
-                    if (res.statusCode == 200) {
-                        that.setData({
-                            finJoinedAct: res.data.finJoinedAct,
-                            finPubAct: res.data.finPubAct
-                        })
-                    } else {}
-                }
-            })
-
-            wx.hideLoading()
-        } else {
-            //TODO:在未完成
-            wx.request({
-                url: urlModel.url.getOngoSignIn, //填充请求订单
-                method: 'GET',
-                data: {
-                    'userId': app.globalData.userId
-                },
-                success: function(res) {
-                    if (res.statusCode == 200) {
-                        that.setData({
-                            joinedAct: res.data.joinedAct,
-                            pubAct: res.data.pubAct
-                        })
-                    }
-                },
-                fail: function() {},
-                complete: function() {}
-            })
-        }
+        that.onPullDownRefresh() //优化逻辑
     },
     fin_signIn: function(e) {
         var that = this

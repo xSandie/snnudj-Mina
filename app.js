@@ -29,8 +29,8 @@ App({
             wx.login({
                 success: function(res) {
                     if (res.code) {
-                        // console.log(res.code)
-                        //发起网络请求
+                        console.log(res.code)
+                            //发起网络请求
                         wx.request({
                             url: urlModel.url.codeUrl,
                             data: {
@@ -43,10 +43,10 @@ App({
                                 if (res.statusCode == 200) {
                                     console.log(res)
                                     that.globalData.openId = res.data.openId
-                                  that.globalData.userId = res.data.userId
+                                    that.globalData.userId = res.data.userId
                                     if (res.data.userPhone) {
                                         that.globalData.admin = res.data.admin,
-                                            
+
                                             that.globalData.username = res.data.username,
                                             that.globalData.userPhone = res.data.userPhone,
                                             that.globalData.date = res.data.date,

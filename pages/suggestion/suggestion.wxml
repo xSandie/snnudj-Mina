@@ -43,6 +43,12 @@
         <view class='my_black normal_font title-text'>
             <text selectable>{{item.sugContent}}</text>
         </view>
+        <view wx:if="{{!item.reply}}" class='card-btn-area'>
+        </view>
+        <view class='reply-area' wx:else>
+            <text class='my_red small_font my_bold' style='margin-bottom:10rpx;'>回复人：{{item.reply[0]}}</text>
+            <text class='my_black normal_font'>回复内容：{{item.reply[1]}}</text>
+        </view>
     </view></scroll-view>
 <view wx:if="{{!admin}}" class='form-area'>
     <form bindsubmit="pubSuggest" bindreset="resetSuggest">
