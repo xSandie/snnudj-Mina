@@ -23,8 +23,72 @@ Page({
         var that = this
         if (options.scene) { //TODO:扫码进入逻辑
             let signInId = decodeURIComponent(options.scene);
-            app.getUser().then(function(res) {
-                var signInId = options.Id
+            if (!app.globalData.userPhone) {
+                app.getUser().then(function(res) {
+                    // var signInId = options.Id
+                    that.setData({
+                        signInId: signInId
+                    })
+                    console.log(signInId)
+                    wx.showLoading({
+                        title: '加载中',
+                        mask: true
+                    })
+                    wx.request({
+                        url: urlModel.url.SignInDetail,
+                        method: 'GET',
+                        data: {
+                            'userId': app.globalData.userId,
+                            'signInId': signInId
+                        },
+                        success: function(res) {
+                            if (res.statusCode == 200) {
+                                that.setData({
+                                    pubuserName: res.data.pubuserName,
+                                    pubuserPhone: res.data.pubuserPhone,
+                                    endTime: res.data.endTime,
+                                    signInNum: res.data.signInNum,
+                                    canSignIn: res.data.canSignIn
+                                })
+                                wx.hideLoading()
+                                wx.showToast({
+                                    title: '加载成功',
+                                    icon: 'success',
+                                    duration: 2000
+                                })
+                            } else if (res.statusCode == 403) {
+                                wx.hideLoading()
+                                wx.showToast({
+                                    title: '您无法为您发布的签到签到',
+                                    icon: 'none',
+                                    duration: 2000
+                                })
+                                setTimeout(function() {
+                                    wx.switchTab({
+                                        url: '../home/home',
+                                    })
+                                }, 2000);
+                            } else {
+                                wx.hideLoading()
+                                wx.showToast({
+                                    title: '加载失败',
+                                    icon: 'none',
+                                    duration: 2000
+                                })
+                            }
+                        },
+                        fail: function() {
+                            wx.hideLoading()
+                            wx.showToast({
+                                title: '加载失败，请检查网络',
+                                icon: 'none',
+                                duration: 2000
+                            })
+                        }
+                    })
+                })
+            } else {
+                // var signInId = options.Id
                 that.setData({
                     signInId: signInId
                 })
@@ -85,7 +149,8 @@ Page({
                         })
                     }
                 })
-            })
+
+            }
         } else if (options.Id) {
             var signInId = options.Id
             if (!app.globalData.userPhone) {
@@ -239,7 +304,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-        if (app.globalData.userPhone) {
+        if (app.globalData.userPhone && this.data.signInId != '') {
             this.onPullDownRefresh()
         }
     },
@@ -291,7 +356,7 @@ Page({
                             icon: 'success',
                             duration: 2000
                         })
-                    } else {
+                    } else if (res.statusCode != 403) {
                         wx.hideLoading()
                         wx.showToast({
                             title: '刷新失败',
