@@ -2,7 +2,7 @@
     <image mode='aspectFill' class='bg-img' src="../../images/bgImg.png"></image>
     <view class='bg-card opt_card'>
         <view class='end-time my_red my_bold'>
-            <text>您好，{{username}}! {{userPhone}}</text>
+            <text>您好，{{username}}!</text>
         </view>
     </view>
 </view>
@@ -29,7 +29,7 @@
         <text>已发布签到</text>
         <text class='my_bold'>{{totalPub}}场</text>
     </view>
-    <view bindtap="toPub" hover-class='redbtn_hover' class='main_btn bar-btn'>
+    <view hidden='{{ !canPub }}' bindtap="toPub" hover-class='redbtn_hover' class='main_btn bar-btn'>
         <text>发起签到</text>
     </view>
 </view>

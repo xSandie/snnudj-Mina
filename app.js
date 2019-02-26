@@ -37,12 +37,12 @@ App({
                                 code: res.code
                             },
                             success: function(res) {
-                                //   console.log(res.data)//服务器解密后，客户端收到基本信息                      
+                                //   console.log(res.data)//服务器解密后，客户端收到基本信息
                                 // console.log('code')
                                 // console.log(res)
                                 if (res.statusCode == 200) {
                                     console.log(res)
-                                    that.globalData.openId = res.data.openId
+                                    // that.globalData.openId = res.data.openId
                                     that.globalData.userId = res.data.userId
                                     if (res.data.userPhone) {
                                         that.globalData.admin = res.data.admin,
@@ -51,7 +51,8 @@ App({
                                             that.globalData.userPhone = res.data.userPhone,
                                             that.globalData.date = res.data.date,
                                             that.globalData.startDate = res.data.startDate,
-                                            that.globalData.endDate = res.data.endDate
+                                            that.globalData.endDate = res.data.endDate,
+                                            that.globalData.canPub = res.data.canPub
                                         wx.hideLoading()
                                     } else {
                                         wx.hideLoading()
@@ -105,6 +106,7 @@ App({
         username: '',
         openId: '',
         userId: '',
-        admin: false
+        admin: false,
+        canPub:false
     }
 })

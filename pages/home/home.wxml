@@ -42,10 +42,10 @@
           </view>
       </view>
       <!--我创建的签到-->  
-      <view hidden='{{blank}}' class='my_black mid_font my_bold' style='margin:28rpx 0;'>
+      <view hidden='{{blank || !canPub}}' class='my_black mid_font my_bold' style='margin:28rpx 0;'>
         <text>我创建的签到</text>
       </view>
-      <view class='white_card' bindtap="toPubDetail" style='margin-bottom:30rpx;' data-sign-in-id="{{item.signInId}}" hover-class='card_hover' wx:for="{{pubAct}}">
+      <view hidden='{{!canPub}}' class='white_card' bindtap="toPubDetail" style='margin-bottom:30rpx;' data-sign-in-id="{{item.signInId}}" hover-class='card_hover' wx:for="{{pubAct}}">
         <view catchtap='fin_signIn' data-sign-in-id="{{item.signInId}}" class='main-area-2  my_red my_bold' >
             <text>点此</text>
             <text style='margin-top:4rpx;'>结束</text>
@@ -74,10 +74,10 @@
     <!--已结束-->  
     <view hidden="{{currentTab!==1}}">
 <!--我创建的签到-->  
-      <view class='my_black mid_font my_bold' style='margin:28rpx 0;'>
+      <view hidden='{{!canPub}}' class='my_black mid_font my_bold' style='margin:28rpx 0;'>
         <text>我创建的签到</text>
       </view>
-      <view class='white_card' bindtap="toPubDetail" style='margin-bottom:30rpx;' data-sign-in-id="{{item.signInId}}" hover-class='card_hover' wx:for="{{finPubAct}}">
+      <view hidden='{{!canPub}}' class='white_card' bindtap="toPubDetail" style='margin-bottom:30rpx;' data-sign-in-id="{{item.signInId}}" hover-class='card_hover' wx:for="{{finPubAct}}">
         <view catchtap='tempOpen' data-sign-in-id="{{item.signInId}}" class='main-area-3  my_grey my_bold' >
             <text>临时</text>
             <text style='margin-top:4rpx;'>开启</text>
@@ -135,7 +135,7 @@
 
     </view>
 
-    <view hover-class="redbtn_hover" class='floatBtn gradient_red' bindtap="toPub">
+    <view hidden='{{!canPub}}' hover-class="redbtn_hover" class='floatBtn gradient_red' bindtap="toPub">
       <text class='mid_font my_bold'>发布签到</text>
     </view>
 </view>  

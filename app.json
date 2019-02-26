@@ -9,7 +9,7 @@
       "pages/pubSignOn/pubSignOn"        
     ],
     "window": {
-        "navigationBarTextStyle": "dark",
+        "navigationBarTextStyle": "black",
         "navigationBarBackgroundColor": "#ffffff",
         "navigationStyle": "custom",
         "backgroundColor": "#f5f8fd"

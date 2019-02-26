@@ -53,10 +53,10 @@
 <view wx:if="{{!admin}}" class='form-area'>
     <form bindsubmit="pubSuggest" bindreset="resetSuggest">
     <view class='title-area'>
-        <textarea class='my_red textarea-title' maxlength='20' name="title" placeholder="输入标题" />
+        <textarea fixed class='my_red textarea-title' maxlength='20' name="title" placeholder="输入标题" />
     </view>
     <view class='content-area'>
-        <textarea class='my_red textarea-con' maxlength='150' name="content" placeholder="请填写建议内容" />
+        <textarea fixed class='my_red textarea-con' maxlength='150' name="content" placeholder="请填写建议内容" />
     </view>
         <view class='btn-area'>
             <button class='main_btn submit-btn' hover-class='redbtn_hover' form-type="submit">发布建议</button>
@@ -69,7 +69,7 @@
 <view wx:else class='form-area'>
     <form bindsubmit="pubReply" bindreset="resetReply">
         <view class='content-area'>
-            <textarea  class='my_red textarea-con' maxlength='150' name="content" placeholder="请填写回复内容" /> 
+            <textarea fixed class='my_red textarea-con' maxlength='150' name="content" placeholder="请填写回复内容" /> 
         </view>
         <view class='btn-area'>
             <button class='main_btn submit-btn' hover-class='redbtn_hover' form-type="submit">发布回复</button>

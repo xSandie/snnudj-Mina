@@ -7,10 +7,10 @@ Page({
      */
     data: {
         username: '马正平',
-        userPhone: 18349250473,
         userCreateTime: '2018-11-30',
         totalJoin: 10,
-        totalPub: 30
+        totalPub: 30,
+        canPub:false
     },
 
     /**
@@ -31,6 +31,9 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
+        this.setData({
+            canPub:app.globalData.canPub
+        })
         var that = this
         wx.request({
             url: urlModel.url.getMyInfo,

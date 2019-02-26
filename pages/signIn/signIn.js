@@ -10,7 +10,7 @@ Page({
         pubuserName: '向书晗',
         endTime: '2018-11-30 19:00',
         signInNum: 99,
-        myUsername: '马正平',
+        myUsername: '',
         canSignIn: true,
         signInId: ''
     },
@@ -25,7 +25,7 @@ Page({
             let signInId = decodeURIComponent(options.scene);
             if (!app.globalData.userPhone) {
                 app.getUser().then(function(res) {
-                    // var signInId = options.Id
+                    var signInId = options.Id
                     that.setData({
                         signInId: signInId
                     })
@@ -48,7 +48,8 @@ Page({
                                     pubuserPhone: res.data.pubuserPhone,
                                     endTime: res.data.endTime,
                                     signInNum: res.data.signInNum,
-                                    canSignIn: res.data.canSignIn
+                                    canSignIn: res.data.canSignIn,
+                                  myUsername: res.data.myName
                                 })
                                 wx.hideLoading()
                                 wx.showToast({
@@ -88,7 +89,7 @@ Page({
                     })
                 })
             } else {
-                // var signInId = options.Id
+                var signInId = options.Id
                 that.setData({
                     signInId: signInId
                 })
@@ -111,7 +112,8 @@ Page({
                                 pubuserPhone: res.data.pubuserPhone,
                                 endTime: res.data.endTime,
                                 signInNum: res.data.signInNum,
-                                canSignIn: res.data.canSignIn
+                              canSignIn: res.data.canSignIn,
+                              myUsername: res.data.myName
                             })
                             wx.hideLoading()
                             wx.showToast({
@@ -250,7 +252,8 @@ Page({
                                 pubuserPhone: res.data.pubuserPhone,
                                 endTime: res.data.endTime,
                                 signInNum: res.data.signInNum,
-                                canSignIn: res.data.canSignIn
+                              canSignIn: res.data.canSignIn,
+                              myUsername: res.data.myName
                             })
                             wx.hideLoading()
                             wx.showToast({
@@ -348,7 +351,8 @@ Page({
                             pubuserPhone: res.data.pubuserPhone,
                             endTime: res.data.endTime,
                             signInNum: res.data.signInNum,
-                            canSignIn: res.data.canSignIn
+                          canSignIn: res.data.canSignIn,
+                          myUsername: res.data.myName
                         })
                         wx.hideLoading()
                         wx.showToast({

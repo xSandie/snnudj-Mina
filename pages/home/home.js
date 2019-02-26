@@ -47,7 +47,8 @@ Page({
         }],
         timeIcon: '../../images/timeIcon.png',
         blank: false,
-        blankIcon: '../../images/blank.png'
+        blankIcon: '../../images/blank.png',
+        canPub:false
     },
 
     /**
@@ -75,7 +76,8 @@ Page({
                     if (res.statusCode == 200) {
                         that.setData({
                             joinedAct: res.data.joinedAct,
-                            pubAct: res.data.pubAct
+                            pubAct: res.data.pubAct,
+                            canPub:app.globalData.canPub
                         })
                         if (res.data.joinedAct.length == 0 && res.data.pubAct.length == 0) {
                             that.setData({
@@ -127,6 +129,9 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
+        this.setData({
+            canPub:app.globalData.canPub
+        })
         if (app.globalData.userPhone) {
             this.onPullDownRefresh()
         }
